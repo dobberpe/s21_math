@@ -39,10 +39,15 @@ long double s21_pow(double base, double exp) {
 long double s21_sqrt(double x) {
     long double n, ni = 1;
     
-    do {
-        n = ni;
-        ni = (n + (x / n)) / 2;
-    } while (s21_abs(n - ni) >= S21_EPS);
+    if (x < 0 || s21_isnan(-x)) n = -S21_NANL;
+    else if (s21_isinf(x)) n = S21_INFL;
+    else if (s21_isnan(x)) n = S21_NANL;
+    else {
+        do {
+            n = ni;
+            ni = (n + (x / n)) / 2;
+        } while (s21_abs(n - ni) >= S21_EPS);
+    }
 
     return n;
 }
@@ -53,7 +58,7 @@ long double s21_fmod(double x, double y) {
 
 bool s21_isnan(double n) {
     d_bits d = {n};
-    return d.bits == 18444492273895866368;
+    return d.bits == NAN_BITS;
 }
 
 bool s21_isinf(double n) {
