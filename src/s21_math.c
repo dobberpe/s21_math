@@ -59,3 +59,35 @@ bool s21_isnan(double n) {
 bool s21_isinf(double n) {
     return n == S21_INF;
 }
+
+long double s21_sin(double x) {
+    x += -(int)(x / (2 * S21_PI)) * (2 * S21_PI);
+    int n = 0;
+    long double sum = 0, sign = 1.0, pow = x, fact = 1.0;
+    while (n < 50) {
+        sum += sign * pow / fact;
+        sign = -sign;
+        pow *= x * x;
+        n++;
+        fact *= (n * 2) * (n * 2 + 1);
+    }
+    return sum;
+}
+
+long double s21_cos(double x) {
+    x += -(int)(x / (2 * S21_PI)) * (2 * S21_PI);
+    int n = 0;
+    long double sum = 0, sign = 1.0, pow = 1.0, fact = 1.0;
+    while (n < 50) {
+        sum += sign * pow / fact;
+        sign = -sign;
+        pow *= x * x;
+        n++;
+        fact *= (n * 2) * (n * 2 - 1);
+    }
+    return sum;
+}
+
+long double s21_tan(double x) {
+    return s21_sin(x) / s21_cos(x);
+}
