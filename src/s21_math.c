@@ -22,7 +22,7 @@ long double s21_pow(double base, double exp) {
             while (exp) {
                 if (s21_fmod(exp, 2)) {
                     result = exp < 0 ? result / base : result * base;
-                    --exp;
+                    exp += exp < 0 ? 1 : -1;
                 } else {
                     base *= base;
                     exp /= 2;
