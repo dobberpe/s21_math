@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 
+#define S21_PI 3.1415926535897932384626433832795L
 #define S21_EPS 1E-7
 #define S21_NANL 0.0l/0.0l
 #define S21_INFL 1.0l/0.0l
