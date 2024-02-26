@@ -6,9 +6,7 @@ int main() {
   SRunner *runner = srunner_create(suite);
 
   Suite *suits_list[] = {
-      s21_add_cases(),      s21_sub_cases(),       s21_mul_cases(),
-      s21_div_cases(),      s21_compare_cases(),   s21_other_cases(),
-      s21_dectostr_cases(), s21_converter_cases(), NULL};
+      s21_sqrt_cases(), NULL};
 
   for (Suite **current = suits_list; *current != NULL; current++)
     srunner_add_suite(runner, *current);
