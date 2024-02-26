@@ -63,7 +63,7 @@ START_TEST(s21_normal_2) {
 }
 END_TEST
 
-Suite *s21_converter_cases(void) {
+Suite *s21_sqrt_cases(void) {
   Suite *c = suite_create("s21_sqrt_cases");
   TCase *tc = tcase_create("s21_sqrt_tc");
   tcase_add_test(tc, s21_negative);
