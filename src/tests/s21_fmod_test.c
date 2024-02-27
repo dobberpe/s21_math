@@ -2,80 +2,80 @@
 
 START_TEST(s21_fmod_inf_inf) {
   // -NAN
-  ld_bits check = {fmod(__builtin_inf (), __builtin_inf ())};
-  ld_bits result = {s21_fmod(__builtin_inf (), __builtin_inf ())};
+  ld_bits check = {fmod(INFINITY, INFINITY)};
+  ld_bits result = {s21_fmod(INFINITY, INFINITY)};
   for (int i = 0; i < 5; ++i) ck_assert_uint_eq(check.bits[i], result.bits[i]);
 }
 END_TEST
 
 START_TEST(s21_fmod_inf_inf_neg) {
   // -NAN
-  ld_bits check = {fmod(__builtin_inf (), -__builtin_inf ())};
-  ld_bits result = {s21_fmod(__builtin_inf (), -__builtin_inf ())};
+  ld_bits check = {fmod(INFINITY, -INFINITY)};
+  ld_bits result = {s21_fmod(INFINITY, -INFINITY)};
   for (int i = 0; i < 5; ++i) ck_assert_uint_eq(check.bits[i], result.bits[i]);
 }
 END_TEST
 
 START_TEST(s21_fmod_inf_nan) {
   // NAN
-  ld_bits check = {fmod(__builtin_inf (), NAN)};
-  ld_bits result = {s21_fmod(__builtin_inf (), NAN)};
+  ld_bits check = {fmod(INFINITY, NAN)};
+  ld_bits result = {s21_fmod(INFINITY, NAN)};
   for (int i = 0; i < 5; ++i) ck_assert_uint_eq(check.bits[i], result.bits[i]);
 }
 END_TEST
 
 START_TEST(s21_fmod_inf_nan_neg) {
   // -NAN
-  ld_bits check = {fmod(__builtin_inf (), -NAN)};
-  ld_bits result = {s21_fmod(__builtin_inf (), -NAN)};
+  ld_bits check = {fmod(INFINITY, -NAN)};
+  ld_bits result = {s21_fmod(INFINITY, -NAN)};
   for (int i = 0; i < 5; ++i) ck_assert_uint_eq(check.bits[i], result.bits[i]);
 }
 END_TEST
 
 START_TEST(s21_fmod_inf_neg_inf) {
   // -NAN
-  ld_bits check = {fmod(-__builtin_inf (), __builtin_inf ())};
-  ld_bits result = {s21_fmod(-__builtin_inf (), __builtin_inf ())};
+  ld_bits check = {fmod(-INFINITY, INFINITY)};
+  ld_bits result = {s21_fmod(-INFINITY, INFINITY)};
   for (int i = 0; i < 5; ++i) ck_assert_uint_eq(check.bits[i], result.bits[i]);
 }
 END_TEST
 
 START_TEST(s21_fmod_inf_neg_inf_neg) {
   // -NAN
-  ld_bits check = {fmod(-__builtin_inf (), -__builtin_inf ())};
-  ld_bits result = {s21_fmod(-__builtin_inf (), -__builtin_inf ())};
+  ld_bits check = {fmod(-INFINITY, -INFINITY)};
+  ld_bits result = {s21_fmod(-INFINITY, -INFINITY)};
   for (int i = 0; i < 5; ++i) ck_assert_uint_eq(check.bits[i], result.bits[i]);
 }
 END_TEST
 
 START_TEST(s21_fmod_inf_neg_nan) {
   // NAN
-  ld_bits check = {fmod(-__builtin_inf (), NAN)};
-  ld_bits result = {s21_fmod(-__builtin_inf (), NAN)};
+  ld_bits check = {fmod(-INFINITY, NAN)};
+  ld_bits result = {s21_fmod(-INFINITY, NAN)};
   for (int i = 0; i < 5; ++i) ck_assert_uint_eq(check.bits[i], result.bits[i]);
 }
 END_TEST
 
 START_TEST(s21_fmod_inf_neg_nan_neg) {
   // -NAN
-  ld_bits check = {fmod(-__builtin_inf (), -NAN)};
-  ld_bits result = {s21_fmod(-__builtin_inf (), -NAN)};
+  ld_bits check = {fmod(-INFINITY, -NAN)};
+  ld_bits result = {s21_fmod(-INFINITY, -NAN)};
   for (int i = 0; i < 5; ++i) ck_assert_uint_eq(check.bits[i], result.bits[i]);
 }
 END_TEST
 
 START_TEST(s21_fmod_nan_inf) {
   // NAN
-  ld_bits check = {fmod(NAN, __builtin_inf ())};
-  ld_bits result = {s21_fmod(NAN, __builtin_inf ())};
+  ld_bits check = {fmod(NAN, INFINITY)};
+  ld_bits result = {s21_fmod(NAN, INFINITY)};
   for (int i = 0; i < 5; ++i) ck_assert_uint_eq(check.bits[i], result.bits[i]);
 }
 END_TEST
 
 START_TEST(s21_fmod_nan_inf_neg) {
   // NAN
-  ld_bits check = {fmod(NAN, -__builtin_inf ())};
-  ld_bits result = {s21_fmod(NAN, -__builtin_inf ())};
+  ld_bits check = {fmod(NAN, -INFINITY)};
+  ld_bits result = {s21_fmod(NAN, -INFINITY)};
   for (int i = 0; i < 5; ++i) ck_assert_uint_eq(check.bits[i], result.bits[i]);
 }
 END_TEST
@@ -98,16 +98,16 @@ END_TEST
 
 START_TEST(s21_fmod_nan_neg_inf) {
   // -NAN
-  ld_bits check = {fmod(-NAN, __builtin_inf ())};
-  ld_bits result = {s21_fmod(-NAN, __builtin_inf ())};
+  ld_bits check = {fmod(-NAN, INFINITY)};
+  ld_bits result = {s21_fmod(-NAN, INFINITY)};
   for (int i = 0; i < 5; ++i) ck_assert_uint_eq(check.bits[i], result.bits[i]);
 }
 END_TEST
 
 START_TEST(s21_fmod_nan_neg_inf_neg) {
   // -NAN
-  ld_bits check = {fmod(-NAN, -__builtin_inf ())};
-  ld_bits result = {s21_fmod(-NAN, -__builtin_inf ())};
+  ld_bits check = {fmod(-NAN, -INFINITY)};
+  ld_bits result = {s21_fmod(-NAN, -INFINITY)};
   for (int i = 0; i < 5; ++i) ck_assert_uint_eq(check.bits[i], result.bits[i]);
 }
 END_TEST
@@ -130,14 +130,14 @@ END_TEST
 
 START_TEST(s21_fmod_value_inf) {
   // -2.0
-  ck_assert_ldouble_eq_tol(fmod(-2, __builtin_inf ()), s21_fmod(-2, __builtin_inf ()), S21_EPS);
+  ck_assert_ldouble_eq_tol(fmod(-2, INFINITY), s21_fmod(-2, INFINITY), S21_EPS);
 }
 END_TEST
 
 START_TEST(s21_fmod_value_inf_neg) {
   // -NAN
-  printf("\nmy: %Lf\nor: %f\n\n", s21_fmod(-2, __builtin_inf ()), fmod(-2, __builtin_inf ()));
-  ck_assert_ldouble_eq_tol(fmod(-2, -__builtin_inf ()), s21_fmod(-2, -__builtin_inf ()), S21_EPS);
+  printf("\nmy: %Lf\nor: %f\n\n", s21_fmod(-2, INFINITY), fmod(-2, INFINITY));
+  ck_assert_ldouble_eq_tol(fmod(-2, -INFINITY), s21_fmod(-2, -INFINITY), S21_EPS);
 }
 END_TEST
 
@@ -159,16 +159,16 @@ END_TEST
 
 START_TEST(s21_fmod_inf_value) {
   // -NAN
-  ld_bits check = {fmod(__builtin_inf (), -2)};
-  ld_bits result = {s21_fmod(__builtin_inf (), -2)};
+  ld_bits check = {fmod(INFINITY, -2)};
+  ld_bits result = {s21_fmod(INFINITY, -2)};
   for (int i = 0; i < 5; ++i) ck_assert_uint_eq(check.bits[i], result.bits[i]);
 }
 END_TEST
 
 START_TEST(s21_fmod_inf_neg_value) {
   // -NAN
-  ld_bits check = {fmod(-__builtin_inf (), -2)};
-  ld_bits result = {s21_fmod(-__builtin_inf (), -2)};
+  ld_bits check = {fmod(-INFINITY, -2)};
+  ld_bits result = {s21_fmod(-INFINITY, -2)};
   for (int i = 0; i < 5; ++i) ck_assert_uint_eq(check.bits[i], result.bits[i]);
 }
 END_TEST
