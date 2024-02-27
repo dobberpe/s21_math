@@ -3,8 +3,8 @@
 
 #include <stdbool.h>
 
-#include <math.h>   // УДАЛИТЬ ПЕРЕД СДАЧЕЙ
-#include <stdio.h>
+// #include <math.h>   // УДАЛИТЬ ПЕРЕД СДАЧЕЙ
+// #include <stdio.h>
 
 #define S21_PI 3.1415926535897932384626433832795L
 #define S21_double_MAX 1.7976931348623158e308

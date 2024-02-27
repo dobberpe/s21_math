@@ -37,9 +37,9 @@ START_TEST(asin_INFINITYL) {
 }
 END_TEST
 
-Suite *s21_atan_cases(void) {
-  Suite *c = suite_create("s21_atan_cases");
-  TCase *tc = tcase_create("s21_atan_tc");
+Suite *s21_asin_cases(void) {
+  Suite *c = suite_create("s21_asin_cases");
+  TCase *tc = tcase_create("s21_asin_tc");
 
   tcase_add_test(tc, asin_09);
   tcase_add_test(tc, asin_1);

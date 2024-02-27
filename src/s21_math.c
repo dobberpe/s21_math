@@ -18,7 +18,7 @@ long double s21_pow(double base, double exp) {
   long double result = 1;
 
   if (!exp) result = 1;
-  else if (s21_isnan(base) || s21_isnan(-base)) result = !s21_fmod(exp, 2) ? fabs(base) : base;
+  else if (s21_isnan(base) || s21_isnan(-base)) result = !s21_fmod(exp, 2) ? s21_fabs(base) : base;
   else if (base == 1 || (base == -1 && !s21_fmod(exp, 2)) || (base == -1 && s21_isinf(s21_fabs(exp)))) result = 1;
   else if ((s21_isinf(s21_fabs(base)) && exp > 1) || (s21_isinf(exp) && base && s21_fabs(base) != 1)) result = S21_INFL;
   else if ((s21_isinf(s21_fabs(base)) && exp < 0) || (s21_isinf(-exp) && base && s21_fabs(base) != 1)) result = 0;
@@ -255,10 +255,6 @@ long double s21_log(double x) {
 }
 
 int s21_abs(int x) {
-  return (x < 0) ? -x : x;
-}
-
-long double s21_fabs(double x) {
   return (x < 0) ? -x : x;
 }
 
