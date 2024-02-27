@@ -17,7 +17,8 @@ pair s21_factorial(int n) {
 long double s21_pow(double base, double exp) {
   long double result = 1;
 
-  if (exp) {
+  if (base == 1.0) result = 1;
+  else if (exp) {
     if (!s21_fmod(exp, 1)) {
       while (exp) {
         if (s21_fmod(exp, 2)) {
@@ -37,28 +38,30 @@ long double s21_pow(double base, double exp) {
 }
 
 long double s21_sqrt(double x) {
-  long double n, ni = 1;
-
-  if (x < 0 || s21_isnan(-x))
-    n = S21_NANL_NEG;
-  else if (s21_isinf(x))
-    n = S21_INFL;
-  else if (s21_isnan(x))
-    n = -S21_NANL_NEG;
-  else {
-    do {
-      n = ni;
-      ni = (n + (x / n)) / 2;
-    } while (s21_abs(n - ni) >= S21_EPS);
-  }
+    long double n, ni = 1;
+    
+    if (x < 0 || s21_isnan(-x)) n = -S21_NANL;
+    else if (s21_isinf(x)) n = S21_INFL;
+    else if (s21_isnan(x)) n = S21_NANL;
+    else {
+        do {
+            n = ni;
+            ni = (n + (x / n)) / 2;
+        } while (s21_fabs(n - ni) >= S21_EPS);
+    }
 
   return n;
 }
 
 long double s21_fmod(double x, double y) {
-  return (y == 0 || s21_isnan(y) || s21_isnan(x)) ? S21_NANL
-         : s21_isinf(y)                           ? x
-                        : x - (long double)s21_floor(x / y) * y;
+  long double result;
+  
+  if (s21_isnan(x)) result = S21_NANL;
+  else if (s21_isnan(-x)) result = -S21_NANL;
+  else if (s21_isnan(y)) result = S21_NANL;
+  else if (s21_isnan(-y) || x == S21_INF || -x == S21_INF) result = -S21_NANL;
+  else result = s21_isinf(y) ? x : x - (long double)s21_floor(x / y) * y;
+  return result;
 }
 
 bool s21_isnan(double n) {
@@ -67,6 +70,8 @@ bool s21_isnan(double n) {
 }
 
 bool s21_isinf(double n) { return n == S21_INF; }
+
+bool s21_isnormal(double n) { return n != S21_INF && !s21_isnan(n) && !s21_isnan(-n); }
 
 long double s21_sin(double x) {
   x += -(int)(x / (2 * S21_PI)) * (2 * S21_PI);
@@ -198,7 +203,7 @@ long double s21_exp(double x) {
 long double s21_fabs(double x) {
   long double result;
   if (x != x || x == S21_INF || x == -S21_INF) {
-    result = (x != x) ? -S21_NANL_NEG : S21_INFL;
+    result = (x != x) ? S21_NANL : S21_INFL;
   } else {
     result = (x < 0) ? -x : x;
   }

@@ -2,145 +2,97 @@
 
 START_TEST(s21_pow_inf_inf) {
   // -NAN
-  double base = INFINITY, exp = INFINITY;
-  long double check = pow(base, exp);
-  long double result = s21_pow(base, exp);
-  ck_assert_ldouble_lt(fabsl(check - result), S21_EPS);
+  ck_assert_ldouble_eq(pow(INFINITY, INFINITY), s21_pow(INFINITY, INFINITY));
 }
 END_TEST
 
 START_TEST(s21_pow_inf_inf_neg) {
   // -NAN
-  double base = INFINITY, exp = -INFINITY;
-  long double check = pow(base, exp);
-  long double result = s21_pow(base, exp);
-  ck_assert_ldouble_lt(fabsl(check - result), S21_EPS);
+  ck_assert_ldouble_eq(pow(INFINITY, -INFINITY), s21_pow(INFINITY, -INFINITY));
 }
 END_TEST
 
 START_TEST(s21_pow_inf_nan) {
   // -NAN
-  double base = INFINITY, exp = NAN;
-  long double check = pow(base, exp);
-  long double result = s21_pow(base, exp);
-  ck_assert_ldouble_lt(fabsl(check - result), S21_EPS);
+  ck_assert_ldouble_eq(pow(INFINITY, NAN), s21_pow(INFINITY, NAN));
 }
 END_TEST
 
 START_TEST(s21_pow_inf_nan_neg) {
   // -NAN
-  double base = INFINITY, exp = -NAN;
-  long double check = pow(base, exp);
-  long double result = s21_pow(base, exp);
-  ck_assert_ldouble_lt(fabsl(check - result), S21_EPS);
+  ck_assert_ldouble_eq(pow(INFINITY, -NAN), s21_pow(INFINITY, -NAN));
 }
 END_TEST
 
 START_TEST(s21_pow_inf_neg_inf) {
   // -NAN
-  double base = -INFINITY, exp = INFINITY;
-  long double check = pow(base, exp);
-  long double result = s21_pow(base, exp);
-  ck_assert_ldouble_lt(fabsl(check - result), S21_EPS);
+  ck_assert_ldouble_eq(pow(-INFINITY, INFINITY), s21_pow(-INFINITY, INFINITY));
 }
 END_TEST
 
 START_TEST(s21_pow_inf_neg_inf_neg) {
   // -NAN
-  double base = -INFINITY, exp = -INFINITY;
-  long double check = pow(base, exp);
-  long double result = s21_pow(base, exp);
-  ck_assert_ldouble_lt(fabsl(check - result), S21_EPS);
+  ck_assert_ldouble_eq(pow(-INFINITY, -INFINITY), s21_pow(-INFINITY, -INFINITY));
 }
 END_TEST
 
 START_TEST(s21_pow_inf_neg_nan) {
   // -NAN
-  double base = -INFINITY, exp = NAN;
-  long double check = pow(base, exp);
-  long double result = s21_pow(base, exp);
-  ck_assert_ldouble_lt(fabsl(check - result), S21_EPS);
+  ck_assert_ldouble_eq(pow(-INFINITY, NAN), s21_pow(-INFINITY, NAN));
 }
 END_TEST
 
 START_TEST(s21_pow_inf_neg_nan_neg) {
   // -NAN
-  double base = -INFINITY, exp = -NAN;
-  long double check = pow(base, exp);
-  long double result = s21_pow(base, exp);
-  ck_assert_ldouble_lt(fabsl(check - result), S21_EPS);
+  ck_assert_ldouble_eq(pow(-INFINITY, -NAN), s21_pow(-INFINITY, -NAN));
 }
 END_TEST
 
 START_TEST(s21_pow_nan_inf) {
   // -NAN
-  double base = NAN, exp = INFINITY;
-  long double check = pow(base, exp);
-  long double result = s21_pow(base, exp);
-  ck_assert_ldouble_lt(fabsl(check - result), S21_EPS);
+  ck_assert_ldouble_eq(pow(NAN, INFINITY), s21_pow(NAN, INFINITY));
 }
 END_TEST
 
 START_TEST(s21_pow_nan_inf_neg) {
   // -NAN
-  double base = NAN, exp = -INFINITY;
-  long double check = pow(base, exp);
-  long double result = s21_pow(base, exp);
-  ck_assert_ldouble_lt(fabsl(check - result), S21_EPS);
+  ck_assert_ldouble_eq(pow(NAN, -INFINITY), s21_pow(NAN, -INFINITY));
 }
 END_TEST
 
 START_TEST(s21_pow_nan_nan) {
   // -NAN
-  double base = NAN, exp = NAN;
-  long double check = pow(base, exp);
-  long double result = s21_pow(base, exp);
-  ck_assert_ldouble_lt(fabsl(check - result), S21_EPS);
+  ck_assert_ldouble_eq(pow(NAN, NAN), s21_pow(NAN, NAN));
 }
 END_TEST
 
 START_TEST(s21_pow_nan_nan_neg) {
   // -NAN
-  double base = NAN, exp = -NAN;
-  long double check = pow(base, exp);
-  long double result = s21_pow(base, exp);
-  ck_assert_ldouble_lt(fabsl(check - result), S21_EPS);
+  ck_assert_ldouble_eq(pow(NAN, -NAN), s21_pow(NAN, -NAN));
 }
 END_TEST
 
 START_TEST(s21_pow_nan_neg_inf) {
   // -NAN
-  double base = -NAN, exp = INFINITY;
-  long double check = pow(base, exp);
-  long double result = s21_pow(base, exp);
-  ck_assert_ldouble_lt(fabsl(check - result), S21_EPS);
+  ck_assert_ldouble_eq(pow(-NAN, INFINITY), s21_pow(-NAN, INFINITY));
 }
 END_TEST
 
 START_TEST(s21_pow_nan_neg_inf_neg) {
   // -NAN
-  double base = -NAN, exp = -INFINITY;
-  long double check = pow(base, exp);
-  long double result = s21_pow(base, exp);
-  ck_assert_ldouble_lt(fabsl(check - result), S21_EPS);
+  ck_assert_ldouble_eq(pow(-NAN, -INFINITY), s21_pow(-NAN, -INFINITY));
 }
 END_TEST
 
 START_TEST(s21_pow_nan_neg_nan) {
   // -NAN
-  double base = -NAN, exp = NAN;
-  long double check = pow(base, exp);
-  long double result = s21_pow(base, exp);
-  ck_assert_ldouble_lt(fabsl(check - result), S21_EPS);
+  ck_assert_ldouble_eq(pow(-NAN, NAN), s21_pow(-NAN, NAN));
 }
 END_TEST
 
 START_TEST(s21_pow_nan_neg_nan_neg) {
   // -NAN
-  double base = -NAN, exp = -NAN;
-  long double check = pow(base, exp);
-  long double result = s21_pow(base, exp);
-  ck_assert_ldouble_lt(fabsl(check - result), S21_EPS);
+  ck_assert_ldouble_eq(pow(-NAN, -NAN), s21_pow(-NAN, -NAN));
 }
 END_TEST
 

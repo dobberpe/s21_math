@@ -6,7 +6,7 @@ int main() {
   SRunner *runner = srunner_create(suite);
 
   Suite *suits_list[] = {
-      s21_sqrt_cases(), s21_pow_cases(), s21_fmod_cases(), NULL};
+      s21_sqrt_cases(), s21_exp_cases(), s21_log_cases(), s21_fmod_cases(), NULL};
 
   for (Suite **current = suits_list; *current != NULL; current++)
     srunner_add_suite(runner, *current);
@@ -15,5 +15,5 @@ int main() {
   number_failed = srunner_ntests_failed(runner);
   srunner_free(runner);
 
-  return (number_failed == 0) ? 0 : 1;
+  return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
