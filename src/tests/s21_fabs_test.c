@@ -4,6 +4,9 @@ START_TEST(fabs_fn) {
   ck_assert_uint_eq(s21_fabs(-612367.54783), fabs(-612367.54783));
   ck_assert_uint_eq(s21_fabs(-45.345), fabs(-45.345));
   ck_assert_uint_eq(s21_fabs(1.0), fabs(1.0));
+  ck_assert_uint_eq(s21_fabs(S21_NAN), fabs(S21_NAN));
+  ck_assert_uint_eq(s21_fabs(S21_INF), fabs(S21_INF));
+  ck_assert_uint_eq(s21_fabs(-S21_INF), fabs(-S21_INF));
 }
 END_TEST
 
