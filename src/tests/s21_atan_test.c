@@ -50,7 +50,7 @@ END_TEST
 Suite *s21_atan_cases(void) {
   Suite *c = suite_create("s21_atan_cases");
   TCase *tc = tcase_create("s21_atan_tc");
-  
+
   tcase_add_test(tc, atan_09);
   tcase_add_test(tc, atan_1);
   tcase_add_test(tc, atan_100);
