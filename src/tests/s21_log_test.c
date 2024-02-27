@@ -48,30 +48,30 @@ END_TEST
 
 START_TEST(s21_log_inf) {
   // INF
-  ck_assert_ldouble_eq(log(INFINITY), s21_log(INFINITY));
+  ck_assert_ldouble_eq(log(S21_INF), s21_log(S21_INF));
 }
 END_TEST
 
 START_TEST(s21_log_inf_negative) {
   // -NAN
-  ld_bits check = {log(-INFINITY)};
-  ld_bits result = {s21_log(-INFINITY)};
+  ld_bits check = {log(-S21_INF)};
+  ld_bits result = {s21_log(-S21_INF)};
   for (int i = 0; i < 5; ++i)  ck_assert_ldouble_eq(check.bits[i], result.bits[i]);
 }
 END_TEST
 
 START_TEST(s21_log_nan) {
   // NAN
-  ld_bits check = {log(NAN)};
-  ld_bits result = {s21_log(NAN)};
+  ld_bits check = {log(S21_NAN)};
+  ld_bits result = {s21_log(S21_NAN)};
   for (int i = 0; i < 5; ++i)  ck_assert_ldouble_eq(check.bits[i], result.bits[i]);
 }
 END_TEST
 
 START_TEST(s21_log_nan_negative) {
   // -NAN
-  ld_bits check = {log(-NAN)};
-  ld_bits result = {s21_log(-NAN)};
+  ld_bits check = {log(-S21_NAN)};
+  ld_bits result = {s21_log(-S21_NAN)};
   for (int i = 0; i < 5; ++i)  ck_assert_ldouble_eq(check.bits[i], result.bits[i]);
 }
 END_TEST

@@ -28,17 +28,17 @@ START_TEST(atan_100000) {
 END_TEST
 
 START_TEST(atan_S21_NAN) {
-  ck_assert_double_eq_tol(atan(NAN), s21_atan(NAN), 1e-07);
+  ck_assert_double_eq_tol(atan(S21_NAN), s21_atan(S21_NAN), 1e-07);
 }
 END_TEST
 
 START_TEST(atan_S21_NANL) {
-  ck_assert_double_eq_tol(atan(nanl("")), s21_atan(nanl("")), 1e-07);
+  ck_assert_double_eq_tol(atan(S21_NANL), s21_atan(S21_NANL), 1e-07);
 }
 END_TEST
 
 START_TEST(atan_S21_INF) {
-  ck_assert_double_eq_tol(atan(INFINITY), s21_atan(INFINITY), 1e-07);
+  ck_assert_double_eq_tol(atan(S21_INF), s21_atan(S21_INF), 1e-07);
 }
 END_TEST
 
