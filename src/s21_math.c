@@ -134,7 +134,7 @@ long double s21_asin(double x) {
     arcsin = (x == 1.0 ? S21_PI / 2.0 : S21_PI / 2.0 * (-1));
 
   } else if (s21_fabs(x) < 1) {
-    arcsin = s21_atan(x / sqrt(1 - x * x));
+    arcsin = s21_atan(x / s21_sqrt(1 - x * x));
   }
 
   return arcsin;
