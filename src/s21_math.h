@@ -4,12 +4,13 @@
 #include <stdbool.h>
 
 #define S21_PI 3.1415926535897932384626433832795L
+#define S21_double_MAX 1.7976931348623158e308
 #define S21_EPS 1E-7
 #define NAN_BITS 9221120237041090560
 #define NAN_BITS_NEG 18444492273895866368
-#define S21_NANL -(0.0l/0.0l)
+#define S21_NANL_NEG 0.0l/0.0l
 #define S21_INFL 1.0l/0.0l
-#define S21_NAN -(0.0/0.0)
+#define S21_NAN_NEG 0.0/0.0
 #define S21_INF 1.0/0.0
 
 typedef struct {

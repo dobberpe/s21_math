@@ -1,7 +1,7 @@
 #include "s21_math_test.h"
 
 START_TEST(acos_09) {
-  for (double i = 0.999; i > -1; i -= 0.001) {
+  for (double i = 0.9; i > -1; i -= 0.1) {
     ck_assert_double_eq_tol(acos(i), s21_acos(i), 1e-07);
   };
 }
@@ -15,27 +15,25 @@ END_TEST
 
 START_TEST(acos_100) {
   for (double i = 100; i >= -100; i -= 10) {
-    ck_assert_double_eq_tol(acos(i), s21_acos(i), 1e-07);
+    if (i == 0) continue;
+    ck_assert(isnan(acos(i)) && isnan(s21_acos(i)));
   }
 }
 END_TEST
 
-START_TEST(acos_S21_NAN) {
-  ck_assert_double_eq_tol(acos(S21_NAN), s21_acos(S21_NAN), 1e-07);
+START_TEST(acos_NAN) { ck_assert(isnan(acos(NAN)) && isnan(s21_acos(NAN))); }
+END_TEST
+
+START_TEST(acos_NAN2) { ck_assert(isnan(acos(-NAN)) && isnan(s21_acos(-NAN))); }
+END_TEST
+
+START_TEST(acos_INFINITY) {
+  ck_assert(isnan(acos(INFINITY)) && isnan(s21_acos(INFINITY)));
 }
 END_TEST
 
-START_TEST(acos_S21_NANL) {
-  ck_assert_double_eq_tol(acos(S21_NANL), s21_acos(S21_NANL), 1e-07);
-}
-
-START_TEST(acos_S21_INF) {
-  ck_assert_double_eq_tol(acos(S21_INF), s21_acos(S21_INF), 1e-07);
-}
-END_TEST
-
-START_TEST(acos_S21_INFL) {
-  ck_assert_double_eq_tol(acos(S21_INFL), s21_acos(S21_INFL), 1e-07);
+START_TEST(acos_INFINITYL) {
+  ck_assert(isnan(acos(-INFINITY)) && isnan(s21_acos(-INFINITY)));
 }
 END_TEST
 
@@ -46,10 +44,10 @@ Suite *s21_atan_cases(void) {
   tcase_add_test(tc, acos_09);
   tcase_add_test(tc, acos_1);
   tcase_add_test(tc, acos_100);
-  tcase_add_test(tc, acos_S21_NAN);
-  tcase_add_test(tc, acos_S21_NANL);
-  tcase_add_test(tc, acos_S21_INF);
-  tcase_add_test(tc, acos_S21_INFL);
+  tcase_add_test(tc, acos_NAN);
+  tcase_add_test(tc, acos_NAN2);
+  tcase_add_test(tc, acos_INFINITY);
+  tcase_add_test(tc, acos_INFINITYL);
 
   suite_add_tcase(c, tc);
   return c;

@@ -99,28 +99,39 @@ long double s21_cos(double x) {
 long double s21_tan(double x) { return s21_sin(x) / s21_cos(x); }
 
 long double s21_atan(double x) {
-  double sign = -1;
+  double sign = 1;
   long double arctn = 0;
 
   if (x == S21_INF) {
     arctn = S21_PI / 2;
 
-  } else if (x == S21_INFL) {
+  } else if (x == -S21_INF) {
     arctn = -S21_PI / 2;
 
-  } else if (s21_fabs(x) >= 1) {
-    for (int i = 0; i < 1000; i++) {
-      arctn += (s21_pow(sign, i) * s21_pow(x, (-1 - 2 * i))) / (1 + 2 * i);
+  } else if (s21_fabs(x) > 1) {
+    long double iks = x;
+    arctn = 1 / iks;
+
+    for (int i = 1; i < 1000000; i++) {
+      sign *= -1;
+      iks *= x * x;
+      arctn += sign / (iks * (1 + 2 * i));
     }
+
     arctn = S21_PI * s21_fabs(x) / (2 * x) - arctn;
 
   } else if (s21_fabs(x) == 1) {
-    // arctn = (x == 1.0) ? S21_PI / 4.0 : S21_PI / 4.0 * (-1);
-    arctn = 0.78539816339744795 * (x < 0 ? -1.0 : 1.0);
+    arctn = (x == 1.0) ? S21_PI / 4.0 : S21_PI / 4.0 * (-1);
 
   } else {
-    for (int i = 1; i < 10000; i++) {
-      arctn += s21_pow(sign, i - 1) * s21_pow(x, 2 * i - 1) / (2 * i - 1);
+    sign = 1;
+    long double iks = x;
+    arctn = x;
+
+    for (int i = 2; i < 1000000; i++) {
+      sign *= -1;
+      iks *= x * x;
+      arctn += sign * (iks / (2 * i - 1));
     }
   }
 
@@ -157,4 +168,75 @@ long double s21_acos(double x) {
   }
 
   return arccos;
+}
+
+long double s21_exp(double x) {
+  long double result = 1;
+  long double term = 1;
+  int sign = 1;
+  int i = 1;
+  long double prev_result = 0;
+  if (x < 0) {
+    x = -x;
+    sign = -1;
+  }
+  while (s21_fabs(result - prev_result) > S21_EPS) {
+    prev_result = result;
+    term *= x / i;
+    i++;
+    result += term;
+  }
+  if (sign == -1) {
+    result = 1 / result;
+  }
+  if (result > S21_double_MAX) {
+    result = S21_INFL;
+  }
+  return result;
+}
+
+long double s21_fabs(double x) {
+  long double result;
+  if (x != x || x == S21_INF || x == -S21_INF) {
+    result = (x != x) ? -S21_NANL_NEG : S21_INFL;
+  } else {
+    result = (x < 0) ? -x : x;
+  }
+  return result;
+}
+
+long double s21_floor(double x) {
+  long double result = x;
+  long long int int_part = (long long int)x;
+  if (x < 0.0 && result != int_part) {
+    result = int_part - 1.0;
+  } else {
+    result = int_part;
+  }
+
+  return result;
+}
+
+long double s21_log(double x) {
+  if (x <= 0.0) {
+    return -S21_INFL;
+  }
+  if (x == 1.0) {
+    return 0.0;
+  }
+  if (x < 1.0) {
+    x = 1 / x;
+    return -s21_log(x);
+  }
+  long double result = 0.0;
+  long double term = (x - 1.0) / (x + 1.0);
+  long double term_squared = term * term;
+  long double current_term = term;
+  long double power = 1.0;
+  for (int i = 0; i < 100; i++) {
+    result += current_term / power;
+    current_term *= term_squared;
+    power += 2.0;
+  }
+  return 2 * result;
 }
