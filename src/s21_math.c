@@ -39,9 +39,9 @@ long double s21_pow(double base, double exp) {
 long double s21_sqrt(double x) {
     long double n, ni = 1;
     
-    if (x < 0 || s21_isnan(-x)) n = -S21_NANL;
+    if (x < 0 || s21_isnan(-x)) n = S21_NANL_NEG;
     else if (s21_isinf(x)) n = S21_INFL;
-    else if (s21_isnan(x)) n = S21_NANL;
+    else if (s21_isnan(x)) n = -S21_NANL_NEG;
     else {
         do {
             n = ni;
@@ -53,7 +53,7 @@ long double s21_sqrt(double x) {
 }
 
 long double s21_fmod(double x, double y) {
-    return (y == 0 || s21_isnan(y) || s21_isnan(x)) ? S21_NANL : s21_isinf(y) ? x : x - (long double)s21_floor(x / y) * y;
+    return (y == 0 || s21_isnan(y) || s21_isnan(x)) ? -S21_NANL_NEG : s21_isinf(y) ? x : x - (long double)s21_floor(x / y) * y;
 }
 
 bool s21_isnan(double n) {

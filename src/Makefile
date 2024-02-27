@@ -15,7 +15,7 @@ test: $(TEST_OBJ) $(LIB_NAME)
 	@$(CC) $(CFLAGS) $(TEST_OBJ) -o test -L. -l:$(LIB_NAME) $(TFLAGS)
 	@rm -f $(TEST_OBJ)
 	@./test
-	@echo
+	@cat pics/keyboard_cat.txt
 
 gcov_report: clean
 	gcc -o s21_math.o -c $(GFLAGS) s21_math.c
@@ -28,7 +28,7 @@ gcov_report: clean
 	open coverage_report/index.html
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIB_NAME): $(LIB_OBJ)
 	@ar rcs $(LIB_NAME) $(LIB_OBJ)
@@ -37,7 +37,7 @@ $(LIB_NAME): $(LIB_OBJ)
 	@cat pics/pika.txt
 
 clean:
-	rm -f $(LIB_OBJ) $(LIB_NAME) $(TEST_OBJ) test gcov* coverage.info *.gcda *.gcno tests/*.gcno
-	rm -rf coverage_report
+	@rm -f $(LIB_OBJ) $(LIB_NAME) $(TEST_OBJ) test gcov* coverage.info *.gcda *.gcno tests/*.gcno
+	@rm -rf coverage_report
 
 re: clean all
