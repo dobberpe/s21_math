@@ -115,7 +115,8 @@ long double s21_atan(double x) {
     arctn = S21_PI * s21_fabs(x) / (2 * x) - arctn;
 
   } else if (s21_fabs(x) == 1) {
-    arctn = (x == 1.0) ? S21_PI / 4.0 : S21_PI / 4.0 * (-1);
+    // arctn = (x == 1.0) ? S21_PI / 4.0 : S21_PI / 4.0 * (-1);
+    arctn = 0.78539816339744795 * (x < 0 ? -1.0 : 1.0);
 
   } else {
     for (int i = 1; i < 10000; i++) {
@@ -124,4 +125,36 @@ long double s21_atan(double x) {
   }
 
   return arctn;
+}
+
+long double s21_asin(double x) {
+  long double arcsin = S21_NAN;
+
+  if (s21_fabs(x) == 1) {
+    arcsin = (x == 1.0 ? S21_PI / 2.0 : S21_PI / 2.0 * (-1));
+
+  } else if (s21_fabs(x) < 1) {
+    arcsin = s21_atan(x / sqrt(1 - x * x));
+  }
+
+  return arcsin;
+}
+
+long double s21_acos(double x) {
+  long double arccos = S21_NAN;
+
+  if (x == 1) {
+    arccos = 0;
+
+  } else if (x == -1) {
+    arccos = S21_PI;
+
+  } else if (x < 1 && x >= 0) {
+    arccos = s21_atan(s21_sqrt(1 - x * x) / x);
+
+  } else if (x < 0 && x >= -1) {
+    arccos = S21_PI + s21_atan(s21_sqrt(1 - x * x) / x);
+  }
+
+  return arccos;
 }
