@@ -112,31 +112,75 @@ long double s21_cos(double x) {
 long double s21_tan(double x) { return s21_sin(x) / s21_cos(x); }
 
 long double s21_atan(double x) {
-  double sign = -1;
+  double sign = 1;
   long double arctn = 0;
 
   if (x == S21_INF) {
     arctn = S21_PI / 2;
 
-  } else if (x == S21_INFL) {
+  } else if (x == -S21_INF) {
     arctn = -S21_PI / 2;
 
-  } else if (s21_fabs(x) >= 1) {
-    for (int i = 0; i < 1000; i++) {
-      arctn += (s21_pow(sign, i) * s21_pow(x, (-1 - 2 * i))) / (1 + 2 * i);
+  } else if (s21_fabs(x) > 1) {
+    long double iks = x;
+    arctn = 1 / iks;
+
+    for (int i = 1; i < 1000000; i++) {
+      sign *= -1;
+      iks *= x * x;
+      arctn += sign / (iks * (1 + 2 * i));
     }
+
     arctn = S21_PI * s21_fabs(x) / (2 * x) - arctn;
 
   } else if (s21_fabs(x) == 1) {
     arctn = (x == 1.0) ? S21_PI / 4.0 : S21_PI / 4.0 * (-1);
 
   } else {
-    for (int i = 1; i < 10000; i++) {
-      arctn += s21_pow(sign, i - 1) * s21_pow(x, 2 * i - 1) / (2 * i - 1);
+    sign = 1;
+    long double iks = x;
+    arctn = x;
+
+    for (int i = 2; i < 1000000; i++) {
+      sign *= -1;
+      iks *= x * x;
+      arctn += sign * (iks / (2 * i - 1));
     }
   }
 
   return arctn;
+}
+
+long double s21_asin(double x) {
+  long double arcsin = S21_NAN;
+
+  if (s21_fabs(x) == 1) {
+    arcsin = (x == 1.0 ? S21_PI / 2.0 : S21_PI / 2.0 * (-1));
+
+  } else if (s21_fabs(x) < 1) {
+    arcsin = s21_atan(x / s21_sqrt(1 - x * x));
+  }
+
+  return arcsin;
+}
+
+long double s21_acos(double x) {
+  long double arccos = S21_NAN;
+
+  if (x == 1) {
+    arccos = 0;
+
+  } else if (x == -1) {
+    arccos = S21_PI;
+
+  } else if (x < 1 && x >= 0) {
+    arccos = s21_atan(s21_sqrt(1 - x * x) / x);
+
+  } else if (x < 0 && x >= -1) {
+    arccos = S21_PI + s21_atan(s21_sqrt(1 - x * x) / x);
+  }
+
+  return arccos;
 }
 
 long double s21_exp(double x) {
