@@ -2,64 +2,51 @@
 
 START_TEST(s21_sqrt_negative) {
   // -NAN
-  double value = -2;
-  long double check = sqrt(value);
-  long double result = s21_sqrt(value);
-  ck_assert_ldouble_lt(fabsl(check - result), S21_EPS);
+  ld_bits check = {sqrt(-2)};
+  ld_bits result = {s21_sqrt(-2)};
+  for (int i = 0; i < 5; ++i) ck_assert_uint_eq(check.bits[i], result.bits[i]);
 }
 END_TEST
 
 START_TEST(s21_sqrt_inf) {
   // INF
-  double value = INFINITY;
-  long double check = sqrt(value);
-  long double result = s21_sqrt(value);
-  ck_assert_ldouble_lt(fabsl(check - result), S21_EPS);
+  ck_assert_ldouble_eq(sqrt(INFINITY), s21_sqrt(INFINITY));
 }
 END_TEST
 
 START_TEST(s21_sqrt_inf_negative) {
   // -NAN
-  double value = -INFINITY;
-  long double check = sqrt(value);
-  long double result = s21_sqrt(value);
-  ck_assert_ldouble_lt(fabsl(check - result), S21_EPS);
+  ld_bits check = {sqrt(-INFINITY)};
+  ld_bits result = {s21_sqrt(-INFINITY)};
+  for (int i = 0; i < 5; ++i)  ck_assert_uint_eq(check.bits[i], result.bits[i]);
 }
 END_TEST
 
 START_TEST(s21_sqrt_nan) {
   // NAN
-  double value = NAN;
-  long double check = sqrt(value);
-  long double result = s21_sqrt(value);
-  ck_assert_ldouble_lt(fabsl(check - result), S21_EPS);
+  ld_bits check = {sqrt(NAN)};
+  ld_bits result = {s21_sqrt(NAN)};
+  for (int i = 0; i < 5; ++i)  ck_assert_uint_eq(check.bits[i], result.bits[i]);
 }
 END_TEST
 
 START_TEST(s21_sqrt_nan_negative) {
   // -NAN
-  double value = -NAN;
-  long double check = sqrt(value);
-  long double result = s21_sqrt(value);
-  ck_assert_ldouble_lt(fabsl(check - result), S21_EPS);
+  ld_bits check = {sqrt(-NAN)};
+  ld_bits result = {s21_sqrt(-NAN)};
+  for (int i = 0; i < 5; ++i)  ck_assert_uint_eq(check.bits[i], result.bits[i]);
 }
 END_TEST
 
 START_TEST(s21_sqrt_normal_1) {
   // 2.0
-  double value = 4;
-  long double check = sqrt(value);
-  long double result = s21_sqrt(value);
-  ck_assert_ldouble_lt(fabsl(check - result), S21_EPS);
+  ck_assert_double_eq_tol(sqrt(4), s21_sqrt(4), S21_EPS);
 }
 END_TEST
 
 START_TEST(s21_sqrt_normal_2) {
   // 22.627417
-  double value = 512;
-  long double check = sqrt(value);
-  long double result = s21_sqrt(value);
-  ck_assert_ldouble_lt(fabsl(check - result), S21_EPS);
+  ck_assert_ldouble_eq_tol(sqrt(512), s21_sqrt(512), S21_EPS);
 }
 END_TEST
 

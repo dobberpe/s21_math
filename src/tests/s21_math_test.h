@@ -2,6 +2,7 @@
 #define TEST_H
 
 #include <check.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
 

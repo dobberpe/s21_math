@@ -1,12 +1,12 @@
 #include "s21_math_test.h"
 
 START_TEST(fabs_fn) {
-  ck_assert_uint_eq(s21_fabs(-612367.54783), fabs(-612367.54783));
-  ck_assert_uint_eq(s21_fabs(-45.345), fabs(-45.345));
-  ck_assert_uint_eq(s21_fabs(1.0), fabs(1.0));
-  ck_assert_uint_eq(s21_fabs(S21_NAN), fabs(S21_NAN));
-  ck_assert_uint_eq(s21_fabs(S21_INF), fabs(S21_INF));
-  ck_assert_uint_eq(s21_fabs(-S21_INF), fabs(-S21_INF));
+  ck_assert_ldouble_eq(s21_fabs(-612367.54783), fabs(-612367.54783));
+  ck_assert_ldouble_eq(s21_fabs(-45.345), fabs(-45.345));
+  ck_assert_ldouble_eq(s21_fabs(1.0), fabs(1.0));
+  ck_assert_ldouble_eq(s21_fabs(NAN), fabs(NAN));
+  ck_assert_ldouble_eq(s21_fabs(INFINITY), fabs(INFINITY));
+  ck_assert_ldouble_eq(s21_fabs(-INFINITY), fabs(-INFINITY));
 }
 END_TEST
 
