@@ -26,28 +26,28 @@ END_TEST
 
 START_TEST(s21_exp_inf) {
   // INF
-  ck_assert_ldouble_eq(exp(INFINITY), s21_exp(INFINITY));
+  ck_assert_ldouble_eq(exp(S21_INF), s21_exp(S21_INF));
 }
 END_TEST
 
 START_TEST(s21_exp_inf_negative) {
   // 0.0
-  ck_assert_ldouble_eq(exp(-INFINITY), s21_exp(-INFINITY));
+  ck_assert_ldouble_eq(exp(-S21_INF), s21_exp(-S21_INF));
 }
 END_TEST
 
 START_TEST(s21_exp_nan) {
   // NAN
-  ld_bits check = {exp(NAN)};
-  ld_bits result = {s21_exp(NAN)};
+  ld_bits check = {exp(S21_NAN)};
+  ld_bits result = {s21_exp(S21_NAN)};
   for (int i = 0; i < 5; ++i)  ck_assert_uint_eq(check.bits[i], result.bits[i]);
 }
 END_TEST
 
 START_TEST(s21_exp_nan_negative) {
   // -NAN
-  ld_bits check = {exp(-NAN)};
-  ld_bits result = {s21_exp(-NAN)};
+  ld_bits check = {exp(-S21_NAN)};
+  ld_bits result = {s21_exp(-S21_NAN)};
   for (int i = 0; i < 5; ++i)  ck_assert_uint_eq(check.bits[i], result.bits[i]);
 }
 END_TEST

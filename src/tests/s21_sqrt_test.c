@@ -10,30 +10,30 @@ END_TEST
 
 START_TEST(s21_sqrt_inf) {
   // INF
-  ck_assert_ldouble_eq(sqrt(INFINITY), s21_sqrt(INFINITY));
+  ck_assert_ldouble_eq(sqrt(S21_INF), s21_sqrt(S21_INF));
 }
 END_TEST
 
 START_TEST(s21_sqrt_inf_negative) {
   // -NAN
-  ld_bits check = {sqrt(-INFINITY)};
-  ld_bits result = {s21_sqrt(-INFINITY)};
+  ld_bits check = {sqrt(-S21_INF)};
+  ld_bits result = {s21_sqrt(-S21_INF)};
   for (int i = 0; i < 5; ++i)  ck_assert_uint_eq(check.bits[i], result.bits[i]);
 }
 END_TEST
 
 START_TEST(s21_sqrt_nan) {
   // NAN
-  ld_bits check = {sqrt(NAN)};
-  ld_bits result = {s21_sqrt(NAN)};
+  ld_bits check = {sqrt(S21_NAN)};
+  ld_bits result = {s21_sqrt(S21_NAN)};
   for (int i = 0; i < 5; ++i)  ck_assert_uint_eq(check.bits[i], result.bits[i]);
 }
 END_TEST
 
 START_TEST(s21_sqrt_nan_negative) {
   // -NAN
-  ld_bits check = {sqrt(-NAN)};
-  ld_bits result = {s21_sqrt(-NAN)};
+  ld_bits check = {sqrt(-S21_NAN)};
+  ld_bits result = {s21_sqrt(-S21_NAN)};
   for (int i = 0; i < 5; ++i)  ck_assert_uint_eq(check.bits[i], result.bits[i]);
 }
 END_TEST

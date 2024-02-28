@@ -17,7 +17,11 @@ pair s21_factorial(int n) {
 long double s21_pow(double base, double exp) {
   long double result = 1;
 
-  if (base == 1.0) result = 1;
+  if (!exp) result = 1;
+  else if (s21_isnan(base) || s21_isnan(-base)) result = !s21_fmod(exp, 2) ? s21_fabs(base) : base;
+  else if (base == 1 || (base == -1 && !s21_fmod(exp, 2)) || (base == -1 && s21_isinf(s21_fabs(exp)))) result = 1;
+  else if ((s21_isinf(s21_fabs(base)) && exp > 1) || (s21_isinf(exp) && base && s21_fabs(base) != 1)) result = S21_INFL;
+  else if ((s21_isinf(s21_fabs(base)) && exp < 0) || (s21_isinf(-exp) && base && s21_fabs(base) != 1)) result = 0;
   else if (exp) {
     if (!s21_fmod(exp, 1)) {
       while (exp) {
@@ -54,14 +58,7 @@ long double s21_sqrt(double x) {
 }
 
 long double s21_fmod(double x, double y) {
-  long double result;
-  
-  if (s21_isnan(x)) result = S21_NANL;
-  else if (s21_isnan(-x)) result = -S21_NANL;
-  else if (s21_isnan(y)) result = S21_NANL;
-  else if (s21_isnan(-y) || x == S21_INF || -x == S21_INF) result = -S21_NANL;
-  else result = s21_isinf(y) ? x : x - (long double)s21_floor(x / y) * y;
-  return result;
+  return s21_isnan(x) || s21_isnan(-x) ? x : s21_isnan(y) ? S21_NANL : s21_isnan(-y) || x == S21_INF || -x == S21_INF || y == 0 ? -S21_NANL : s21_isinf(y) || s21_isinf(-y) ? x : x - (long double)s21_floor(x / y) * y;
 }
 
 bool s21_isnan(double n) {
@@ -69,7 +66,18 @@ bool s21_isnan(double n) {
   return d.bits == NAN_BITS;
 }
 
-bool s21_isinf(double n) { return n == S21_INF; }
+bool s21_isinf(double n) {
+  d_bits d = {n};
+  return d.bits == INF_BITS;
+}
+
+// bool s21_isnan(double n) {
+//   return n != n;
+// }
+
+// bool s21_isinf(double n) {
+//   return !s21_isnan(n) && s21_isnan(n - n);
+// }
 
 bool s21_isnormal(double n) { return n != S21_INF && !s21_isnan(n) && !s21_isnan(-n); }
 
@@ -244,4 +252,15 @@ long double s21_log(double x) {
     power += 2.0;
   }
   return 2 * result;
+}
+
+int s21_abs(int x) {
+  return (x < 0) ? -x : x;
+}
+
+long double s21_ceil(double x) {
+  long long int integer_part = (long long int)x;
+  long double result = integer_part;
+  if (x > 0.0 && x != integer_part) result += 1.0;
+  return result;
 }

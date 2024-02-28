@@ -21,25 +21,25 @@ START_TEST(acos_100) {
 }
 END_TEST
 
-START_TEST(acos_NAN) { ck_assert(isnan(acos(NAN)) && isnan(s21_acos(NAN))); }
+START_TEST(acos_NAN) { ck_assert(isnan(acos(S21_NAN)) && isnan(s21_acos(S21_NAN))); }
 END_TEST
 
-START_TEST(acos_NAN2) { ck_assert(isnan(acos(-NAN)) && isnan(s21_acos(-NAN))); }
+START_TEST(acos_NAN2) { ck_assert(isnan(acos(-S21_NAN)) && isnan(s21_acos(-S21_NAN))); }
 END_TEST
 
 START_TEST(acos_INFINITY) {
-  ck_assert(isnan(acos(INFINITY)) && isnan(s21_acos(INFINITY)));
+  ck_assert(isnan(acos(S21_INF)) && isnan(s21_acos(S21_INF)));
 }
 END_TEST
 
 START_TEST(acos_INFINITYL) {
-  ck_assert(isnan(acos(-INFINITY)) && isnan(s21_acos(-INFINITY)));
+  ck_assert(isnan(acos(-S21_INF)) && isnan(s21_acos(-S21_INF)));
 }
 END_TEST
 
-Suite *s21_atan_cases(void) {
-  Suite *c = suite_create("s21_atan_cases");
-  TCase *tc = tcase_create("s21_atan_tc");
+Suite *s21_acos_cases(void) {
+  Suite *c = suite_create("s21_acos_cases");
+  TCase *tc = tcase_create("s21_acos_tc");
 
   tcase_add_test(tc, acos_09);
   tcase_add_test(tc, acos_1);
