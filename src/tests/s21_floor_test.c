@@ -19,11 +19,51 @@ START_TEST(floor_fn) {
 }
 END_TEST
 
+START_TEST(s21_floor_inf) {
+  // INF
+  ck_assert_ldouble_eq(floor(S21_INF), s21_floor(S21_INF));
+}
+END_TEST
+
+START_TEST(s21_floor_nan) {
+  // NAN
+  ld_bits check = {floor(S21_NAN)};
+  ld_bits result = {s21_floor(S21_NAN)};
+  for (int i = 0; i < 5; ++i)  ck_assert_uint_eq(check.bits[i], result.bits[i]);
+}
+END_TEST
+
+START_TEST(s21_floor_inf_negative) {
+  // INF
+  ck_assert_ldouble_eq(floor(-S21_INF), s21_floor(-S21_INF));
+}
+END_TEST
+START_TEST(s21_floor_nan_negative) {
+  // NAN
+  ld_bits check = {floor(-S21_NAN)};
+  ld_bits result = {s21_floor(-S21_NAN)};
+  for (int i = 0; i < 5; ++i)  ck_assert_uint_eq(check.bits[i], result.bits[i]);
+}
+END_TEST
+
+// START_TEST(s21_floor_nan_negative) {
+//   // NAN
+//   long double check = floor(-S21_NAN);
+//   long double result = s21_floor(-S21_NANL);
+//   ck_assert(s21_isnan(check) && s21_isnan(result));
+// }
+// END_TEST
+
+
 Suite *s21_floor_cases(void) {
   Suite *c = suite_create("s21_floor_cases");
   TCase *tc = tcase_create("s21_floor_tc");
 
   tcase_add_test(tc, floor_fn);
+  tcase_add_test(tc, s21_floor_inf);
+  tcase_add_test(tc, s21_floor_inf_negative);
+  tcase_add_test(tc, s21_floor_nan);
+  tcase_add_test(tc, s21_floor_nan_negative);
 
   suite_add_tcase(c, tc);
 
