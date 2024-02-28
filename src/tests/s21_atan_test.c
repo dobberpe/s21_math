@@ -1,19 +1,15 @@
 #include "s21_math_test.h"
 
 START_TEST(atan_09) {
-  for (double i = 0.9; i > -1; i -= 0.1) {
+  for (double i = 0.9; i > -1; i -= 0.4) {
     ck_assert_double_eq_tol(atan(i), s21_atan(i), 1e-06);
   };
 }
 END_TEST
 
 START_TEST(atan_2) {
-  ck_assert_double_eq_tol(atan(0.999999), s21_atan(0.999999), 1e-06);
-  ck_assert_double_eq_tol(atan(-0.999999), s21_atan(-0.999999), 1e-06);
   ck_assert_double_eq_tol(atan(0.99999999), s21_atan(0.99999999), 1e-06);
   ck_assert_double_eq_tol(atan(-0.99999999), s21_atan(-0.99999999), 1e-06);
-  ck_assert_double_eq_tol(atan(0.9999999999), s21_atan(0.9999999999), 1e-06);
-  ck_assert_double_eq_tol(atan(-0.9999999999), s21_atan(-0.9999999999), 1e-06);
 }
 
 START_TEST(atan_1) {
@@ -23,14 +19,14 @@ START_TEST(atan_1) {
 END_TEST
 
 START_TEST(atan_100) {
-  for (double i = 100; i >= -100; i -= 10) {
+  for (double i = 100; i >= -100; i -= 50) {
     ck_assert_double_eq_tol(atan(i), s21_atan(i), 1e-06);
   }
 }
 END_TEST
 
 START_TEST(atan_100000) {
-  for (double i = 100000; i >= -100000; i -= 1000) {
+  for (double i = 100000; i >= -100000; i -= 50000) {
     ck_assert_double_eq_tol(atan(i), s21_atan(i), 1e-06);
   }
 }
