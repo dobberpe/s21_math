@@ -24,6 +24,7 @@ gcov_report: clean
 	rm -f $(LIB_OBJ)
 	$(CC) $(CFLAGS) -o gcov_r $(GFLAGS) $(TEST_SRC) -L. -l:$(LIB_NAME) $(TFLAGS)
 	./gcov_r
+	mkdir coverage_report
 	python3 -m gcovr -r . --html --html-details -o coverage_report/index.html --exclude test
 	open coverage_report/index.html
 
