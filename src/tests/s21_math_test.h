@@ -23,5 +23,8 @@ Suite *s21_tan_cases(void);
 Suite *s21_asin_cases(void);
 Suite *s21_acos_cases(void);
 Suite *s21_atan_cases(void);
+Suite *s21_sin_cases(void);
+Suite *s21_cos_cases(void);
+Suite *s21_tan_cases(void);
 
 #endif

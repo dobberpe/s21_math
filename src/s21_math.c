@@ -85,7 +85,7 @@ long double s21_sin(double x) {
   x += -(int)(x / (2 * S21_PI)) * (2 * S21_PI);
   int n = 0;
   long double sum = 0, sign = 1.0, pow = x, fact = 1.0;
-  while (n < 50) {
+  while (n < 150) {
     sum += sign * pow / fact;
     sign = -sign;
     pow *= x * x;
@@ -99,7 +99,7 @@ long double s21_cos(double x) {
   x += -(int)(x / (2 * S21_PI)) * (2 * S21_PI);
   int n = 0;
   long double sum = 0, sign = 1.0, pow = 1.0, fact = 1.0;
-  while (n < 50) {
+  while (n < 150) {
     sum += sign * pow / fact;
     sign = -sign;
     pow *= x * x;
