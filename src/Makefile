@@ -18,14 +18,15 @@ test: $(TEST_OBJ) $(LIB_NAME)
 	@cat pics/keyboard_cat.txt
 
 gcov_report: clean
-	gcc -o s21_math.o -c $(GFLAGS) s21_math.c
-	ar rcs $(LIB_NAME) $(LIB_OBJ)
-	ranlib $(LIB_NAME)
-	rm -f $(LIB_OBJ)
-	$(CC) $(CFLAGS) -o gcov_r $(GFLAGS) $(TEST_SRC) -L. -l:$(LIB_NAME) $(TFLAGS)
-	./gcov_r
-	python3 -m gcovr -r . --html --html-details -o coverage_report/index.html --exclude test
-	open coverage_report/index.html
+	@gcc -o s21_math.o -c $(GFLAGS) s21_math.c
+	@ar rcs $(LIB_NAME) $(LIB_OBJ)
+	@ranlib $(LIB_NAME)
+	@rm -f $(LIB_OBJ)
+	@$(CC) $(CFLAGS) -o gcov_r $(GFLAGS) $(TEST_SRC) -L. -l:$(LIB_NAME) $(TFLAGS)
+	@mkdir coverage_report
+	@./gcov_r
+	@python3 -m gcovr -r . --html --html-details -o coverage_report/index.html --exclude test
+	@open coverage_report/index.html
 
 %.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@
