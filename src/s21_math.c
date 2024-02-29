@@ -109,6 +109,8 @@ long double s21_floor(double x) {
   return result;
 }
 
+// #define S21_EXP 2.718281828459045235360287471352662
+
 long double s21_log(double x) {
     int power = 0;
     long double result = 0.;
