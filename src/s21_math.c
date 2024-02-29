@@ -275,3 +275,14 @@ long double s21_log(double x) {
   }
   return (result + power);
 }
+
+int s21_abs(int x) {
+  return (x < 0) ? -x : x;
+}
+
+long double s21_ceil(double x) {
+  long long int integer_part = (long long int)x;
+  long double result = integer_part;
+  if (x > 0.0 && x != integer_part) result += 1.0;
+  return result;
+}
