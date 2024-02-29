@@ -25,12 +25,6 @@ START_TEST(s21_floor_inf) {
 }
 END_TEST
 
-START_TEST(s21_floor_inf_negative) {
-  // INF
-  ck_assert_ldouble_eq(floor(-S21_INF), s21_floor(-S21_INF));
-}
-END_TEST
-
 START_TEST(s21_floor_nan) {
   // NAN
   ld_bits check = {floor(S21_NAN)};
@@ -39,6 +33,11 @@ START_TEST(s21_floor_nan) {
 }
 END_TEST
 
+START_TEST(s21_floor_inf_negative) {
+  // INF
+  ck_assert_ldouble_eq(floor(-S21_INF), s21_floor(-S21_INF));
+}
+END_TEST
 START_TEST(s21_floor_nan_negative) {
   // NAN
   ld_bits check = {floor(-S21_NAN)};
@@ -46,6 +45,15 @@ START_TEST(s21_floor_nan_negative) {
   for (int i = 0; i < 5; ++i)  ck_assert_uint_eq(check.bits[i], result.bits[i]);
 }
 END_TEST
+
+// START_TEST(s21_floor_nan_negative) {
+//   // NAN
+//   long double check = floor(-S21_NAN);
+//   long double result = s21_floor(-S21_NANL);
+//   ck_assert(s21_isnan(check) && s21_isnan(result));
+// }
+// END_TEST
+
 
 Suite *s21_floor_cases(void) {
   Suite *c = suite_create("s21_floor_cases");

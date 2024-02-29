@@ -218,49 +218,60 @@ long double s21_fabs(double x) {
   return result;
 }
 
-long double s21_floor(double x) {
-  long double result = x;
-  long long int int_part = (long long int)x;
-  if (x < 0.0 && result != int_part) {
-    result = int_part - 1.0;
-  } else {
-    result = int_part;
-  }
+// long double s21_floor(double x) {
+//   long double result = x;
+//
+//   if (s21_isnan(x) || s21_isinf(x)) {
+//     return x;
+//   }
+//   long long int int_part = (long long int)x;
+//   if (result < 0 && 1.0/result == 0.0) {
+//     return -S21_INF;
+//   }
+//   if (x < 0.0 && result != int_part) {
+//     result = int_part - 1.0;
+//   } else {
+//     result = int_part;
+//   }
+//
+//   return result;
+// }
 
+long double s21_floor(double x) {
+  long double result;
+  if (x != x) {
+    result = x;
+  } else if (x == S21_INF) {
+    result = S21_INFL;
+  } else if (x == -S21_INF) {
+    result = -S21_INFL;
+  } else {
+    long long int int_part = (long long int)x;
+    result = (x - int_part != 0 && x < 0) ? int_part - 1 : int_part;
+  }
   return result;
 }
 
 long double s21_log(double x) {
-  if (x <= 0.0) {
-    return -S21_INFL;
+  int power = 0;
+  long double result = 0.;
+  long double term = 0.;
+  if (s21_isnan(x)) {
+    result = x;
+  } else if (x == S21_INF) {
+    result = S21_INFL;
+  } else if (x == -S21_INF) {
+    result = -S21_NANL;
+  } else if (x == 0.) {
+    result = -S21_INFL;
+  } else if (x < 0.) {
+    result = -S21_NANL;
+  } else {
+    for (; x >= S21_EXP; x /= S21_EXP, power++) continue;
+    for (int i = 0; i < 100; i++) {
+      term = result;
+      result = term + 2 * (x - s21_exp(term)) / (x + s21_exp(term));
+    }
   }
-  if (x == 1.0) {
-    return 0.0;
-  }
-  if (x < 1.0) {
-    x = 1 / x;
-    return -s21_log(x);
-  }
-  long double result = 0.0;
-  long double term = (x - 1.0) / (x + 1.0);
-  long double term_squared = term * term;
-  long double current_term = term;
-  long double power = 1.0;
-  for (int i = 0; i < 100; i++) {
-    result += current_term / power;
-    current_term *= term_squared;
-    power += 2.0;
-  }
-  return 2 * result;
-}
-
-int s21_abs(int x) {
-  return (x < 0) ? -x : x;
-}
-
-long double s21_ceil(double x) {
-  long long int integer_part = (long long int)x;
-  long double result = integer_part;
-  if (x > 0.0 && x != integer_part) result += 1.0;
-  return result;
+  return (result + power);
 }
