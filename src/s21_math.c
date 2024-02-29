@@ -201,8 +201,12 @@ long double s21_fabs(double x) {
 }
 
 long double s21_ceil(double x) {
-  long long int integer_part = (long long int)x;
-  long double result = integer_part;
-  if (x > 0.0 && x != integer_part) result += 1.0;
+  long double result = 0;
+  if (x == S21_INF || x == S21_NAN) result = x;
+  else{
+    long long int integer_part = (long long int)x;
+    result = integer_part;
+    if (x > 0.0 && x != integer_part) result += 1.0;
+  }
   return result;
 }
