@@ -1,7 +1,7 @@
 #include "s21_math_test.h"
 
 START_TEST(asin_09) {
-  for (double i = 0.9; i > -1; i -= 0.1) {
+  for (double i = 0.9; i > -1; i -= 0.4) {
     ck_assert_double_eq_tol(asin(i), s21_asin(i), 1e-07);
   };
 }

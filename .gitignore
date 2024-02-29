@@ -50,3 +50,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+.vscode/
+src/.clang-format
+src/.vscode/
+src/gcov_r
+src/test
+src/tests/.clang-format
