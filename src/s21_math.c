@@ -281,12 +281,13 @@ int s21_abs(int x) {
 }
 
 long double s21_ceil(double x) {
-  long double result = 0;
-  if (x == S21_INF || x == S21_NAN) result = x;
+  long double result = 0.0;
+  if (x == S21_INF || x == -S21_INF || x == S21_NAN || x == -S21_NAN || x == S21_double_MAX) result = x;
   else{
     long long int integer_part = (long long int)x;
-    result = integer_part;
+    result = (long double)integer_part;
     if (x > 0.0 && x != integer_part) result += 1.0;
+    if (x < 0.0 && result == 0) result *= -1.0;
   }
   return result;
 }
