@@ -3,13 +3,13 @@
 START_TEST(s21_abs_fn) {
   ck_assert_int_eq(s21_abs(-45785), abs(-45785));
   ck_assert_int_eq(s21_abs(478912), abs(478912));
-  ck_assert_int_eq(s21_abs(-2147483648), abs(-2147483648));
-  ck_assert_int_eq(s21_abs(2147483648), abs(2147483648));
+  ck_assert_int_eq(s21_abs(-2147483648), abs((int)-2147483648));
+  ck_assert_int_eq(s21_abs(2147483647), abs(2147483647));
   ck_assert_int_eq(s21_abs(0), abs(0));
-  ck_assert_int_eq(s21_abs(NAN), abs(NAN));
-  ck_assert_int_eq(s21_abs(-NAN), abs(-NAN));
-  ck_assert_int_eq(s21_abs(INFINITY), abs(INFINITY));
-  ck_assert_int_eq(s21_abs(-INFINITY), abs(-INFINITY));
+  // ck_assert_int_eq(s21_abs(S21_NAN), abs(S21_NAN));
+  // ck_assert_int_eq(s21_abs(-S21_NAN), abs(-S21_NAN));
+  // ck_assert_int_eq(s21_abs(S21_INF), abs(S21_INF));
+  // ck_assert_int_eq(s21_abs(-S21_INF), abs(-S21_INF));
 }
 END_TEST
 

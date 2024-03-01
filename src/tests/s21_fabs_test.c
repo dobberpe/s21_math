@@ -49,8 +49,8 @@ START_TEST(s21_fabs_fn) {
   ck_assert_ldouble_eq_tol(s21_fabs(68845.345), fabs(68845.345), 1e-07);
   ck_assert_ldouble_eq_tol(s21_fabs(1.0), fabs(1.0), 1e-07);
   ck_assert_ldouble_eq_tol(s21_fabs(-1.1515), fabs(-1.1515), 1e-07);
-  ck_assert_ldouble_eq_tol(s21_fabs(0), fabs(0), 1e-07);
-  ck_assert_ldouble_eq_tol(s21_fabs(-0), fabs(-0), 1e-07);
+  ck_assert_ldouble_eq_tol(s21_fabs(0.0), fabs(0.0), 1e-07);
+  ck_assert_ldouble_eq_tol(s21_fabs(-0.0), fabs(-0.0), 1e-07);
   ck_assert_ldouble_eq(s21_fabs(NAN), fabs(NAN));
   ck_assert_ldouble_eq(s21_fabs(-NAN), fabs(-NAN));
   ck_assert_ldouble_eq(s21_fabs(INFINITY), fabs(INFINITY));

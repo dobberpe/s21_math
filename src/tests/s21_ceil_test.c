@@ -15,3 +15,14 @@ START_TEST(s21_ceil_fn) {
     ck_assert_ldouble_eq(s21_ceil(-NAN), ceil(-NAN));
 }
 END_TEST
+
+Suite *s21_ceil_cases(void) {
+  Suite *c = suite_create("s21_ceil_cases");
+  TCase *tc = tcase_create("s21_ceil_tc");
+
+  tcase_add_test(tc, s21_ceil_fn);
+
+  suite_add_tcase(c, tc);
+
+  return c;
+}
