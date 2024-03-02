@@ -14,10 +14,12 @@ START_TEST(s21_ceil_fn) {
 END_TEST
 
 START_TEST(s21_ceil_inf) {
-  ck_assert_ldouble_eq(s21_ceil(INFINITY), ceil(INFINITY));
-  ld_bits check = {s21_ceil(-S21_INF)};
-  ld_bits result = {ceil(-S21_INF)};
-  for (int i = 0; i < 5; ++i)  ck_assert_uint_eq(check.bits[i], result.bits[i]);
+  ck_assert_ldouble_eq(s21_ceil(S21_INF), ceil(S21_INF));
+}
+END_TEST
+
+START_TEST(s21_ceil_inf_negative) {
+  ck_assert_ldouble_eq(s21_ceil(-S21_INF), ceil(-S21_INF));
 }
 END_TEST
 
