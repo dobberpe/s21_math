@@ -32,19 +32,43 @@ START_TEST(atan_100000) {
 }
 END_TEST
 
-START_TEST(atan_NAN) { ck_assert(isnan(atan(NAN)) && isnan(s21_atan(NAN))); }
-END_TEST
-
-START_TEST(atan_NAN2) { ck_assert(isnan(atan(-NAN)) && isnan(s21_atan(-NAN))); }
-END_TEST
-
-START_TEST(atan_INFINITY) {
-  ck_assert_double_eq_tol(atan(INFINITY), s21_atan(INFINITY), 1e-06);
+START_TEST(atan_NAN) {
+  // NAN
+  ld_bits check = {atan(S21_NAN)};
+  ld_bits result = {s21_atan(S21_NAN)};
+  for (int i = 0; i < 5; ++i) ck_assert_uint_eq(check.bits[i], result.bits[i]);
 }
 END_TEST
 
-START_TEST(atan_INFINITY2) {
-  ck_assert_double_eq_tol(atan(-INFINITY), s21_atan(-INFINITY), 1e-06);
+START_TEST(atan_NAN2) {
+  // -NAN
+  ld_bits check = {atan(S21_NAN)};
+  ld_bits result = {s21_atan(S21_NAN)};
+  for (int i = 0; i < 5; ++i) ck_assert_uint_eq(check.bits[i], result.bits[i]);
+}
+END_TEST
+
+START_TEST(atan_S21_INF) {
+  // 1.570796
+  ck_assert_double_eq_tol(atan(S21_INF), s21_atan(S21_INF), 1e-06);
+}
+END_TEST
+
+START_TEST(atan_S21_INF2) {
+  // -1.570796
+  ck_assert_double_eq_tol(atan(-S21_INF), s21_atan(-S21_INF), 1e-06);
+}
+END_TEST
+
+START_TEST(s21_atan_max_double) {
+  // 1.570796
+  ck_assert_double_eq_tol(atan(S21_double_MAX), s21_atan(S21_double_MAX), 1e-06);
+}
+END_TEST
+
+START_TEST(s21_atan_min_double) {
+  // 0.0
+  ck_assert_ldouble_eq_tol(s21_atan(S21_double_MIN), atan(S21_double_MIN), 1e-06);
 }
 END_TEST
 
@@ -58,9 +82,11 @@ Suite *s21_atan_cases(void) {
   tcase_add_test(tc, atan_100000);
   tcase_add_test(tc, atan_NAN);
   tcase_add_test(tc, atan_NAN2);
-  tcase_add_test(tc, atan_INFINITY);
-  tcase_add_test(tc, atan_INFINITY2);
+  tcase_add_test(tc, atan_S21_INF);
+  tcase_add_test(tc, atan_S21_INF2);
   tcase_add_test(tc, atan_2);
+  tcase_add_test(tc, s21_atan_max_double);
+  tcase_add_test(tc, s21_atan_min_double);
 
   suite_add_tcase(c, tc);
   return c;

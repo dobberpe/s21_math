@@ -52,6 +52,18 @@ START_TEST(s21_exp_nan_negative) {
 }
 END_TEST
 
+START_TEST(s21_exp_max_double) {
+  // INF
+  ck_assert_double_eq(exp(S21_double_MAX), s21_exp(S21_double_MAX));
+}
+END_TEST
+
+START_TEST(s21_exp_min_double) {
+  // 1.0
+  ck_assert_ldouble_eq_tol(s21_exp(S21_double_MIN), exp(S21_double_MIN), S21_EPS);
+}
+END_TEST
+
 Suite *s21_exp_cases(void) {
   Suite *c = suite_create("s21_exp_cases");
   TCase *tc = tcase_create("s21_exp_tc");
@@ -61,6 +73,8 @@ Suite *s21_exp_cases(void) {
   tcase_add_test(tc, s21_exp_inf_negative);
   tcase_add_test(tc, s21_exp_nan);
   tcase_add_test(tc, s21_exp_nan_negative);
+  tcase_add_test(tc, s21_exp_max_double);
+  tcase_add_test(tc, s21_exp_min_double);
 
   suite_add_tcase(c, tc);
 

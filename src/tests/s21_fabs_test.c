@@ -43,6 +43,18 @@ START_TEST(s21_fabs_nan_negative) {
   }
 END_TEST
 
+START_TEST(s21_fabs_max_double) {
+  // S21_double_MAX
+  ck_assert_double_eq_tol(fabs(S21_double_MAX), s21_fabs(S21_double_MAX), S21_EPS);
+}
+END_TEST
+
+START_TEST(s21_fabs_min_double) {
+  // 0.0
+  ck_assert_ldouble_eq_tol(s21_fabs(S21_double_MIN), fabs(S21_double_MIN), S21_EPS);
+}
+END_TEST
+
 START_TEST(s21_fabs_fn) {
   ck_assert_ldouble_eq_tol(s21_fabs(-612367.54783), fabs(-612367.54783), 1e-07);
   ck_assert_ldouble_eq_tol(s21_fabs(-45.345), fabs(-45.345), 1e-07);
@@ -69,6 +81,8 @@ Suite *s21_fabs_cases(void) {
   tcase_add_test(tc, s21_fabs_nan);
   tcase_add_test(tc, s21_fabs_nan_negative);
   tcase_add_test(tc, s21_fabs_fn);
+  tcase_add_test(tc, s21_fabs_max_double);
+  tcase_add_test(tc, s21_fabs_min_double);
   suite_add_tcase(c, tc);
 
   return c;

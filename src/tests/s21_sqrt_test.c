@@ -50,6 +50,19 @@ START_TEST(s21_sqrt_normal_2) {
 }
 END_TEST
 
+START_TEST(s21_sqrt_max_double) {
+  // 13407807929942595611008317640802934282464207265959107021466054756094376573581619054852612241927956455650759996398703782412109633178814162067569513603268608.000000
+  printf("\n%f\n%Lf\n\n", sqrt(S21_double_MAX), s21_sqrt(S21_double_MAX));
+  ck_assert_double_eq_tol(sqrt(S21_double_MAX), s21_sqrt(S21_double_MAX), S21_EPS);
+}
+END_TEST
+
+START_TEST(s21_sqrt_min_double) {
+  // 0.0
+  ck_assert_ldouble_eq_tol(s21_sqrt(S21_double_MIN), sqrt(S21_double_MIN), S21_EPS);
+}
+END_TEST
+
 Suite *s21_sqrt_cases(void) {
   Suite *c = suite_create("s21_sqrt_cases");
   TCase *tc = tcase_create("s21_sqrt_tc");
@@ -60,6 +73,8 @@ Suite *s21_sqrt_cases(void) {
   tcase_add_test(tc, s21_sqrt_nan_negative);
   tcase_add_test(tc, s21_sqrt_normal_1);
   tcase_add_test(tc, s21_sqrt_normal_2);
+  tcase_add_test(tc, s21_sqrt_max_double);
+  tcase_add_test(tc, s21_sqrt_min_double);
   suite_add_tcase(c, tc);
   return c;
 }

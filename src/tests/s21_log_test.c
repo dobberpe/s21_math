@@ -35,7 +35,6 @@ START_TEST(s21_log_negative) {
   // -NAN
   ld_bits check = {log(-2)};
   ld_bits result = {s21_log(-2)};
-  // printf("\n%Lf\n%Lf\n\n", result.full, check.full);
   for (int i = 0; i < 5; ++i) ck_assert_ldouble_eq(check.bits[i], result.bits[i]);
 }
 END_TEST
@@ -76,6 +75,18 @@ START_TEST(s21_log_nan_negative) {
 }
 END_TEST
 
+START_TEST(s21_log_max_double) {
+  // 709.782713
+  ck_assert_double_eq_tol(log(S21_double_MAX), s21_log(S21_double_MAX), S21_EPS);
+}
+END_TEST
+
+START_TEST(s21_log_min_double) {
+  // -709.782713
+  ck_assert_ldouble_eq_tol(s21_log(S21_double_MIN), log(S21_double_MIN), S21_EPS);
+}
+END_TEST
+
 Suite *s21_log_cases(void) {
   Suite *c = suite_create("s21_log_cases");
   TCase *tc = tcase_create("s21_log_tc");
@@ -89,6 +100,8 @@ Suite *s21_log_cases(void) {
   tcase_add_test(tc, s21_log_inf_negative);
   tcase_add_test(tc, s21_log_nan);
   tcase_add_test(tc, s21_log_nan_negative);
+  tcase_add_test(tc, s21_log_max_double);
+  tcase_add_test(tc, s21_log_min_double);
 
   suite_add_tcase(c, tc);
 

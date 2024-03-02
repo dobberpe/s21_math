@@ -14,26 +14,42 @@ START_TEST(s21_ceil_fn) {
 END_TEST
 
 START_TEST(s21_ceil_inf) {
+  // NAN
   ck_assert_ldouble_eq(s21_ceil(S21_INF), ceil(S21_INF));
 }
 END_TEST
 
 START_TEST(s21_ceil_inf_negative) {
+  // -NAN
   ck_assert_ldouble_eq(s21_ceil(-S21_INF), ceil(-S21_INF));
 }
 END_TEST
 
 START_TEST(s21_ceil_nan) {
+  // INF
   ld_bits check = {ceil(S21_NAN)};
   ld_bits result = {s21_ceil(S21_NAN)};
-  for (int i = 0; i < 5; ++i)  ck_assert_uint_eq(check.bits[i], result.bits[i]);
+  for (int i = 0; i < 5; ++i) ck_assert_uint_eq(check.bits[i], result.bits[i]);
 }
 END_TEST
 
 START_TEST(s21_ceil_nan_negative) {
+  // -INF
   ld_bits check = {ceil(-S21_NAN)};
   ld_bits result = {s21_ceil(-S21_NAN)};
-  for (int i = 0; i < 5; ++i)  ck_assert_uint_eq(check.bits[i], result.bits[i]);
+  for (int i = 0; i < 5; ++i) ck_assert_uint_eq(check.bits[i], result.bits[i]);
+}
+END_TEST
+
+START_TEST(s21_ceil_max_double) {
+  // S21_double_MAX
+  ck_assert_ldouble_eq_tol(s21_ceil(S21_double_MAX), ceil(S21_double_MAX), S21_EPS);
+}
+END_TEST
+
+START_TEST(s21_ceil_min_double) {
+  // 1.0
+  ck_assert_ldouble_eq_tol(s21_ceil(S21_double_MIN), ceil(S21_double_MIN), S21_EPS);
 }
 END_TEST
 
@@ -43,8 +59,11 @@ Suite *s21_ceil_cases(void) {
 
   tcase_add_test(tc, s21_ceil_fn);
   tcase_add_test(tc, s21_ceil_inf);
+  tcase_add_test(tc, s21_ceil_inf_negative);
   tcase_add_test(tc, s21_ceil_nan);
   tcase_add_test(tc, s21_ceil_nan_negative);
+  tcase_add_test(tc, s21_ceil_max_double);
+  tcase_add_test(tc, s21_ceil_min_double);
 
   suite_add_tcase(c, tc);
 
