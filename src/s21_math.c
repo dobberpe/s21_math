@@ -230,25 +230,6 @@ long double s21_fabs(double x) {
   return result;
 }
 
-// long double s21_floor(double x) {
-//   long double result = x;
-//
-//   if (s21_isnan(x) || s21_isinf(x)) {
-//     return x;
-//   }
-//   long long int int_part = (long long int)x;
-//   if (result < 0 && 1.0/result == 0.0) {
-//     return -S21_INF;
-//   }
-//   if (x < 0.0 && result != int_part) {
-//     result = int_part - 1.0;
-//   } else {
-//     result = int_part;
-//   }
-//
-//   return result;
-// }
-
 long double s21_floor(double x) {
   long double result;
   if (x != x) {
@@ -257,6 +238,8 @@ long double s21_floor(double x) {
     result = S21_INFL;
   } else if (x == -S21_INF) {
     result = -S21_INFL;
+      } else if (x == S21_double_MAX) {
+    result = x;
   } else {
     long long int int_part = (long long int)x;
     result = (x - int_part != 0 && x < 0) ? int_part - 1 : int_part;
@@ -271,7 +254,7 @@ long double s21_log(double x) {
   if (s21_isnan(x)) {
     result = x;
   } else if (x == S21_INF) {
-    result = S21_INFL;
+    result = S21_INF;
   } else if (x == -S21_INF) {
     result = -S21_NANL;
   } else if (x == 0.) {
@@ -280,7 +263,7 @@ long double s21_log(double x) {
     result = -S21_NANL;
   } else {
     for (; x >= S21_EXP; x /= S21_EXP, power++) continue;
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 500; i++) {
       term = result;
       result = term + 2 * (x - s21_exp(term)) / (x + s21_exp(term));
     }
