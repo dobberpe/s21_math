@@ -1,17 +1,25 @@
 #include "s21_math.h"
 
-pair s21_factorial(int n) {
-  pair result;
-  if (n == 0) {
-    result.first = 1;
-    result.second = 1;
-  } else {
-    pair tmp = s21_factorial(n - 1);
-    result.first = tmp.second;
-    result.second = tmp.first + tmp.second;
-  }
+// pair s21_factorial(int n) {
+//   pair result;
+//   if (n == 0) {
+//     result.first = 1;
+//     result.second = 1;
+//   } else {
+//     pair tmp = s21_factorial(n - 1);
+//     result.first = tmp.second;
+//     result.second = tmp.first + tmp.second;
+//   }
 
-  return result;
+//   return result;
+// }
+
+bool precision_check(long double value, long double check) {
+  char buf1[32] = {0};
+  char buf2[32] = {0};
+  sprintf(buf1, value >= 10000000000 ? "%.15Le" : "%.6Lf", value);
+  sprintf(buf2, value >= 10000000000 ? "%.15Le" : "%.6Lf", check);
+  return strcmp(buf1, buf2);
 }
 
 long double s21_pow(double base, double exp) {
@@ -21,6 +29,7 @@ long double s21_pow(double base, double exp) {
   else if (s21_isnan(base) || s21_isnan(-base)) result = !s21_fmod(exp, 2) ? s21_fabs(base) : base;
   else if (base == 1 || (base == -1 && !s21_fmod(exp, 2)) || (base == -1 && s21_isinf(s21_fabs(exp)))) result = 1;
   else if ((s21_isinf(s21_fabs(base)) && exp > 1) || (s21_isinf(exp) && base && s21_fabs(base) != 1)) result = S21_INFL;
+  else if (s21_isinf(-base) && exp < 0 && !s21_fmod(exp, 1) && s21_fmod(exp, 2)) result = -0.0;
   else if ((s21_isinf(s21_fabs(base)) && exp < 0) || (s21_isinf(-exp) && base && s21_fabs(base) != 1)) result = 0;
   else if (exp) {
     if (!s21_fmod(exp, 1)) {
@@ -33,28 +42,30 @@ long double s21_pow(double base, double exp) {
           exp /= 2;
         }
       }
-    } else {
-      result = s21_exp(exp * s21_log(base));
-    }
+    } else result = s21_exp(exp * s21_log(base));
   }
 
   return result;
 }
 
-long double s21_sqrt(double x) {
-    long double n, ni = 1;
+// long double s21_sqrt(double x) {
+//     long double n, ni = 1;
     
-    if (x < 0 || s21_isnan(-x)) n = -S21_NANL;
-    else if (s21_isinf(x)) n = S21_INFL;
-    else if (s21_isnan(x)) n = S21_NANL;
-    else {
-        do {
-            n = ni;
-            ni = (n + (x / n)) / 2;
-        } while (s21_fabs(n - ni) >= S21_EPS);
-    }
+//     if (x < 0 || s21_isnan(-x)) n = -S21_NANL;
+//     else if (s21_isinf(x)) n = S21_INFL;
+//     else if (s21_isnan(x)) n = S21_NANL;
+//     else {
+//         do {
+//             n = ni;
+//             ni = (n + (x / n)) / 2;
+//         } while (s21_fabs(n - ni) >= S21_EPS);
+//     }
 
-  return n;
+//   return n;
+// }
+
+long double s21_sqrt(double x) {
+    return s21_pow(x, 0.5);
 }
 
 long double s21_fmod(double x, double y) {
@@ -193,7 +204,8 @@ long double s21_exp(double x) {
     x = -x;
     sign = -1;
   }
-  while (s21_fabs(result - prev_result) > S21_EPS) {
+  // while (s21_fabs(result - prev_result) > S21_EPS) {
+  while (precision_check(result, prev_result)) {
     prev_result = result;
     term *= x / i;
     i++;
@@ -280,9 +292,9 @@ int s21_abs(int x) {
   return (x < 0) ? -x : x;
 }
 
-long double s21_ceil(double x) {
+long double s21_ceil(double x) { // if exp > 52 ? result = x
   long double result = 0.0;
-  if (x == S21_INF || x == -S21_INF || s21_isnan(x) || s21_isnan(-x) || x == S21_double_MAX) result = x;
+  if (x == S21_INF || x == -S21_INF || s21_isnan(x) || s21_isnan(-x) || x == S21_double_MAX || x == -S21_double_MAX) result = x;
   else{
     long long int integer_part = (long long int)x;
     result = (long double)integer_part;

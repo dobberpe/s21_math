@@ -2,9 +2,10 @@
 #define S21_MATH_H
 
 #include <stdbool.h>
+#include <stdio.h>
+#include <string.h>
 
 // #include <math.h>   // УДАЛИТЬ ПЕРЕД СДАЧЕЙ
-// #include <stdio.h>
 
 #define S21_PI 3.1415926535897932384626433832795L
 #define S21_EXP 2.718281828459045235360287471352662
@@ -38,6 +39,8 @@ typedef union {
     double full;
     unsigned long long bits;
 } d_bits;
+
+bool precision_check(long double value, long double check);
 
 int s21_abs(int x);
 long double s21_ceil(double x);
