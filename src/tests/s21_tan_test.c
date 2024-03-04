@@ -2,15 +2,15 @@
 
 START_TEST(tan_09) {
   for (double i = 0.9; i > -1; i -= 0.1) {
-    ck_assert(!precision_check(s21_tan(i), tan(i)));
+    ck_assert(!precision_check(s21_tan(i), tan(i), false));
     // ck_assert_double_eq_tol(tan(i), s21_tan(i), 1e-07);
   };
 }
 END_TEST
 
 START_TEST(tan_1) {
-  ck_assert(!precision_check(s21_tan(1), tan(1)));
-  ck_assert(!precision_check(s21_tan(-1), tan(-1)));
+  ck_assert(!precision_check(s21_tan(1), tan(1), false));
+  ck_assert(!precision_check(s21_tan(-1), tan(-1), false));
   // ck_assert_double_eq_tol(tan(1), s21_tan(1), 1e-07);
   // ck_assert_double_eq_tol(tan(-1), s21_tan(-1), 1e-07);
 }
@@ -18,7 +18,7 @@ END_TEST
 
 START_TEST(tan_100) {
   for (double i = 99999; i >= 1; i /= 1.217) {
-    ck_assert(!precision_check(s21_tan(i), tan(i)));
+    ck_assert(!precision_check(s21_tan(i), tan(i), false));
     // ck_assert_double_eq_tol(tan(i), s21_tan(i), 1e-07);
   }
 }
@@ -26,7 +26,7 @@ END_TEST
 
 START_TEST(tan_NAN) {
   // NAN
-  ck_assert(!precision_check(s21_tan(S21_NAN), tan(S21_NAN)));
+  ck_assert(!precision_check(s21_tan(S21_NAN), tan(S21_NAN), false));
   // ld_bits check = {tan(S21_NAN)};
   // ld_bits result = {s21_tan(S21_NAN)};
   // for (int i = 0; i < 5; ++i) ck_assert_uint_eq(check.bits[i], result.bits[i]);
@@ -35,7 +35,7 @@ END_TEST
 
 START_TEST(tan_NAN2) {
   // -NAN
-  ck_assert(!precision_check(s21_tan(-S21_NAN), tan(-S21_NAN)));
+  ck_assert(!precision_check(s21_tan(-S21_NAN), tan(-S21_NAN), false));
   // ld_bits check = {tan(S21_NAN)};
   // ld_bits result = {s21_tan(S21_NAN)};
   // for (int i = 0; i < 5; ++i) ck_assert_uint_eq(check.bits[i], result.bits[i]);
@@ -44,7 +44,7 @@ END_TEST
 
 START_TEST(tan_INFINITY) {
   // -NAN
-  ck_assert(!precision_check(s21_tan(S21_INF), tan(S21_INF)));
+  ck_assert(!precision_check(s21_tan(S21_INF), tan(S21_INF), false));
   // ld_bits check = {tan(S21_INF)};
   // ld_bits result = {s21_tan(S21_INF)};
   // for (int i = 0; i < 5; ++i) ck_assert_uint_eq(check.bits[i], result.bits[i]);
@@ -53,7 +53,7 @@ END_TEST
 
 START_TEST(tan_INFINITYL) {
   // -NAN
-  ck_assert(!precision_check(s21_tan(-S21_INF), tan(-S21_INF)));
+  ck_assert(!precision_check(s21_tan(-S21_INF), tan(-S21_INF), false));
   // ld_bits check = {tan(-S21_INF)};
   // ld_bits result = {s21_tan(-S21_INF)};
   // for (int i = 0; i < 5; ++i) ck_assert_uint_eq(check.bits[i], result.bits[i]);
@@ -62,28 +62,28 @@ END_TEST
 
 START_TEST(s21_tan_max_double) {
   // -0.004962
-  ck_assert(!precision_check(s21_tan(S21_double_MAX), tan(S21_double_MAX)));
+  ck_assert(!precision_check(s21_tan(S21_double_MAX), tan(S21_double_MAX), false));
   // ck_assert_double_eq_tol(tan(S21_double_MAX), s21_tan(S21_double_MAX), S21_EPS);
 }
 END_TEST
 
 START_TEST(s21_tan_max_double_neg) {
   // -0.004962
-  ck_assert(!precision_check(s21_tan(-S21_double_MAX), tan(-S21_double_MAX)));
+  ck_assert(!precision_check(s21_tan(-S21_double_MAX), tan(-S21_double_MAX), false));
   // ck_assert_double_eq_tol(tan(S21_double_MAX), s21_tan(S21_double_MAX), S21_EPS);
 }
 END_TEST
 
 START_TEST(s21_tan_min_double) {
   // 0.0
-  ck_assert(!precision_check(s21_tan(S21_double_MIN), tan(S21_double_MIN)));
+  ck_assert(!precision_check(s21_tan(S21_double_MIN), tan(S21_double_MIN), false));
   // ck_assert_ldouble_eq_tol(s21_tan(S21_double_MIN), tan(S21_double_MIN), S21_EPS);
 }
 END_TEST
 
 START_TEST(s21_tan_min_double_neg) {
   // 0.0
-  ck_assert(!precision_check(s21_tan(-S21_double_MIN), tan(-S21_double_MIN)));
+  ck_assert(!precision_check(s21_tan(-S21_double_MIN), tan(-S21_double_MIN), false));
   // ck_assert_ldouble_eq_tol(s21_tan(S21_double_MIN), tan(S21_double_MIN), S21_EPS);
 }
 END_TEST

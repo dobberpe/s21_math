@@ -14,11 +14,17 @@
 //   return result;
 // }
 
-bool precision_check(long double value, long double check) {
-  char buf1[32] = {0};
-  char buf2[32] = {0};
-  sprintf(buf1, value >= 10000000000 ? "%.15Le" : "%.6Lf", value);
-  sprintf(buf2, value >= 10000000000 ? "%.15Le" : "%.6Lf", check);
+bool precision_check(long double value, long double check, bool extended_prec) {
+  char buf1[512] = {0};
+  char buf2[512] = {0};
+  if (value >= 10000000000) {
+    sprintf(buf1, "%.*Le", extended_prec ? 16 : 15, value);
+    sprintf(buf2, "%.*Le", extended_prec ? 16 : 15, check);
+  } else {
+    sprintf(buf1, "%.*Lf", extended_prec ? 7 : 6, value);
+    sprintf(buf2, "%.*Lf", extended_prec ? 7 : 6, check);
+  }
+  // printf("\n%s\n%s\n", buf1, buf2);
   return strcmp(buf1, buf2);
 }
 
@@ -48,28 +54,30 @@ long double s21_pow(double base, double exp) {
   return result;
 }
 
-// long double s21_sqrt(double x) {
-//     long double n, ni = 1;
-    
-//     if (x < 0 || s21_isnan(-x)) n = -S21_NANL;
-//     else if (s21_isinf(x)) n = S21_INFL;
-//     else if (s21_isnan(x)) n = S21_NANL;
-//     else {
-//         do {
-//             n = ni;
-//             ni = (n + (x / n)) / 2;
-//         } while (s21_fabs(n - ni) >= S21_EPS);
-//     }
-
-//   return n;
-// }
-
 long double s21_sqrt(double x) {
-    return s21_pow(x, 0.5);
+    long double n, ni = 1;
+    
+    if (x < 0 || s21_isnan(-x)) n = -S21_NANL;
+    else if (s21_isinf(x)) n = S21_INFL;
+    else if (s21_isnan(x)) n = S21_NANL;
+    else {
+        do {
+            n = ni;
+            ni = (n + (x / n)) / 2;
+        } while (precision_check(n, ni, true));
+    }
+
+  return n;
 }
 
+// long double s21_sqrt(double x) {
+//     return s21_pow(x, 0.5);
+// }
+
 long double s21_fmod(double x, double y) {
-  return s21_isnan(x) || s21_isnan(-x) ? x : s21_isnan(y) ? S21_NANL : s21_isnan(-y) || x == S21_INF || -x == S21_INF || y == 0 ? -S21_NANL : s21_isinf(y) || s21_isinf(-y) ? x : x - (long double)s21_floor(x / y) * y;
+  long double result = s21_isnan(x) || s21_isnan(-x) ? x : s21_isnan(y) ? S21_NANL : s21_isnan(-y) || x == S21_INF || -x == S21_INF || y == 0 ? -S21_NANL : s21_isinf(y) || s21_isinf(-y) || s21_fabs(x) < s21_fabs(y) ? x : x - s21_floor(x / y) * y;
+  result = !result && x < 0 ? -0.0 : result;
+  return result;
 }
 
 bool s21_isnan(double n) {
@@ -205,7 +213,7 @@ long double s21_exp(double x) {
     sign = -1;
   }
   // while (s21_fabs(result - prev_result) > S21_EPS) {
-  while (precision_check(result, prev_result)) {
+  while (precision_check(result, prev_result, true)) {
     prev_result = result;
     term *= x / i;
     i++;
@@ -222,24 +230,25 @@ long double s21_exp(double x) {
 
 long double s21_fabs(double x) {
   long double result;
-  if (x != x || x == S21_INF || x == -S21_INF) {
-    result = (x != x) ? S21_NANL : S21_INFL;
+  if (s21_isnan(x) || s21_isnan(-x) || x == S21_INF || x == -S21_INF) {
+    result = x == S21_INF || x == -S21_INF ? S21_INFL : S21_NANL;
   } else {
-    result = (x < 0) ? -x : x;
+    result = !x ? 0 : (x < 0) ? -x : x;
   }
   return result;
 }
 
 long double s21_floor(double x) {
   long double result;
-  if (x != x) {
+  d_bits d = {x};
+  if (s21_isnan(x) || s21_isnan(-x)) {
     result = x;
   } else if (x == S21_INF) {
     result = S21_INFL;
   } else if (x == -S21_INF) {
     result = -S21_INFL;
-      } else if (x == S21_double_MAX) {
-    result = x;
+  } else if ((int)((d.bits << 1) >> 53) - 1023 > 51) {
+    result = (long double)x;
   } else {
     long long int int_part = (long long int)x;
     result = (x - int_part != 0 && x < 0) ? int_part - 1 : int_part;
@@ -251,7 +260,7 @@ long double s21_log(double x) {
   int power = 0;
   long double result = 0.;
   long double term = 0.;
-  if (s21_isnan(x)) {
+  if (s21_isnan(x) || s21_isnan(-x)) {
     result = x;
   } else if (x == S21_INF) {
     result = S21_INF;
@@ -262,11 +271,15 @@ long double s21_log(double x) {
   } else if (x < 0.) {
     result = -S21_NANL;
   } else {
-    for (; x >= S21_EXP; x /= S21_EXP, power++) continue;
-    for (int i = 0; i < 500; i++) {
+    do {
       term = result;
-      result = term + 2 * (x - s21_exp(term)) / (x + s21_exp(term));
-    }
+      result = term + 2 * ((x - s21_exp(term)) / (x + s21_exp(term)));
+    } while (precision_check(result, term, true));
+    // for (; x >= S21_EXP; x /= S21_EXP, power++) continue;
+    // for (int i = 0; i < 500; i++) {
+    //   term = result;
+    //   result = term + 2 * (x - s21_exp(term)) / (x + s21_exp(term));
+    // }
   }
   return (result + power);
 }
@@ -277,12 +290,17 @@ int s21_abs(int x) {
 
 long double s21_ceil(double x) { // if exp > 52 ? result = x
   long double result = 0.0;
-  if (x == S21_INF || x == -S21_INF || s21_isnan(x) || s21_isnan(-x) || x == S21_double_MAX || x == -S21_double_MAX) result = x;
-  else{
-    long long int integer_part = (long long int)x;
-    result = (long double)integer_part;
-    if (x > 0.0 && x != integer_part) result += 1.0;
-    if (x < 0.0 && result == 0) result *= -1.0;
+  // printf("", );
+  // d_bits d = {x};
+  // ((d.bits << 1) >> 53) - 1023 > 51
+  if (x == S21_INF || x == -S21_INF || s21_isnan(x) || s21_isnan(-x) || !s21_fmod(x, 1)) result = x;
+  else {
+    result = s21_floor(x) + 1;
+    result *= result == 0 && x < 0 ? -1 : 1;
+    // long long int integer_part = (long long int)x;
+    // result = (long double)integer_part;
+    // if (x > 0.0 && x != integer_part) result += 1.0;
+    // if (x < 0.0 && result == 0) result *= -1.0;
   }
   return result;
 }

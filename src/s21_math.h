@@ -40,7 +40,7 @@ typedef union {
     unsigned long long bits;
 } d_bits;
 
-bool precision_check(long double value, long double check);
+bool precision_check(long double value, long double check, bool extended_prec);
 
 int s21_abs(int x);
 long double s21_ceil(double x);
