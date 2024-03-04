@@ -187,17 +187,19 @@ long double s21_atan(double x) {
     sign *= -1;
   }
 
-  if (s21_fabs(x) > 1) {
-    arctn = S21_PI / 2 - s21_atan(1 / s21_fabs(x));
-
-  } else if (s21_fabs(x) == 1) {
+  if (s21_fabs(x) == 1) {
     arctn = (x == 1.0) ? S21_PI / 4.0 : S21_PI / 4.0 * (-1);
 
   } else {
-    for (int i = 2; i < 10000; i++) {
+    if (s21_fabs(x) > 1) iks = 1 / s21_fabs(x);
+
+    for (int i = 2; i < 1000; i++) {
       arctn += s21_pow(-1, i - 1) * (s21_pow(iks, 2 * i - 1) / (2 * i - 1));
     }
+
+    if (s21_fabs(x) > 1) arctn = S21_PI / 2 - arctn;
   }
+
   if (s21_fabs(x) != 1) {
     arctn *= sign;
   }
