@@ -65,17 +65,20 @@ long double s21_pow(double base, double exp) {
 }
 
 long double s21_sqrt(double x) {
-    long double n, ni = 1;
-    
-    if (x < 0 || s21_isnan(-x)) n = -S21_NANL;
-    else if (s21_isinf(x)) n = S21_INFL;
-    else if (s21_isnan(x)) n = S21_NANL;
-    else {
-        do {
-            n = ni;
-            ni = (n + (x / n)) / 2;
-        } while (precision_check(n, ni, true));
-    }
+  long double n, ni = 1;
+
+  if (x < 0 || s21_isnan(-x))
+    n = -S21_NANL;
+  else if (s21_isinf(x))
+    n = S21_INFL;
+  else if (s21_isnan(x))
+    n = S21_NANL;
+  else {
+    do {
+      n = ni;
+      ni = (n + (x / n)) / 2;
+    } while (precision_check(n, ni, true));
+  }
 
   return n;
 }
@@ -85,7 +88,13 @@ long double s21_sqrt(double x) {
 // }
 
 long double s21_fmod(double x, double y) {
-  long double result = s21_isnan(x) || s21_isnan(-x) ? x : s21_isnan(y) ? S21_NANL : s21_isnan(-y) || x == S21_INF || -x == S21_INF || y == 0 ? -S21_NANL : s21_isinf(y) || s21_isinf(-y) || s21_fabs(x) < s21_fabs(y) ? x : x - s21_floor(x / y) * y;
+  long double result =
+      s21_isnan(x) || s21_isnan(-x)                              ? x
+      : s21_isnan(y)                                             ? S21_NANL
+      : s21_isnan(-y) || x == S21_INF || -x == S21_INF || y == 0 ? -S21_NANL
+      : s21_isinf(y) || s21_isinf(-y) || s21_fabs(x) < s21_fabs(y)
+          ? x
+          : x - s21_floor(x / y) * y;
   result = !result && x < 0 ? -0.0 : result;
   return result;
 }
@@ -142,6 +151,47 @@ long double s21_cos(double x) {
 
 long double s21_tan(double x) { return s21_sin(x) / s21_cos(x); }
 
+long double s21_atan(double x) {
+  double sign = 1;
+  long double arctn = 0, iks = x;
+
+  if (x == S21_INF) {
+    arctn = S21_PI / 2;
+
+  } else if (x == -S21_INF) {
+    arctn = -S21_PI / 2;
+
+  } else if (s21_fabs(x) >= 1.7976931348623158e307) {
+    arctn = (S21_PI / 2 - arctn) * (x < 0 ? -1 : 1);
+
+  } else if (s21_fabs(x) > 1) {
+    arctn = 1 / iks;
+    for (int i = 1; i < 1000000; i++) {
+      sign *= -1;
+      iks *= x * x;
+      arctn += sign / (iks * (1 + 2 * i));
+    }
+
+    arctn = S21_PI * s21_fabs(x) / (2 * x) - arctn;
+
+  } else if (s21_fabs(x) == 1) {
+    arctn = (x == 1.0) ? S21_PI / 4.0 : S21_PI / 4.0 * (-1);
+
+  } else {
+    sign = 1;
+    iks = x;
+    arctn = x;
+
+    for (int i = 2; i < 1000000; i++) {
+      sign *= -1;
+      iks *= x * x;
+      arctn += sign * (iks / (2 * i - 1));
+    }
+  }
+
+  return arctn;
+}
+
 // long double s21_atan(double x) {
 //   double sign = 1;
 //   long double arctn = 0;
@@ -182,35 +232,36 @@ long double s21_tan(double x) { return s21_sin(x) / s21_cos(x); }
 //   return arctn;
 // }
 
-long double s21_atan(double x) {
-  double sign = 1;
-  double iks = x;
-  long double arctn = 0;
 
-  if (x <= 0) {
-    iks *= -1;
-    sign *= -1;
-  }
+// long double s21_atan(double x) {
+//   double sign = 1;
+//   double iks = x;
+//   long double arctn = 0;
 
-  if (s21_fabs(x) == 1) {
-    arctn = (x == 1.0) ? S21_PI / 4.0 : S21_PI / 4.0 * (-1);
+//   if (x <= 0) {
+//     iks *= -1;
+//     sign *= -1;
+//   }
 
-  } else {
-    if (s21_fabs(x) > 1) iks = 1 / s21_fabs(x);
+//   if (s21_fabs(x) == 1) {
+//     arctn = (x == 1.0) ? S21_PI / 4.0 : S21_PI / 4.0 * (-1);
 
-    for (int i = 2; i < 1000; i++) {
-      arctn += s21_pow(-1, i - 1) * (s21_pow(iks, 2 * i - 1) / (2 * i - 1));
-    }
+//   } else {
+//     if (s21_fabs(x) > 1) iks = 1 / s21_fabs(x);
 
-    if (s21_fabs(x) > 1) arctn = S21_PI / 2 - arctn;
-  }
+//     for (int i = 2; i < 1000; i++) {
+//       arctn += s21_pow(-1, i - 1) * (s21_pow(iks, 2 * i - 1) / (2 * i - 1));
+//     }
 
-  if (s21_fabs(x) != 1) {
-    arctn *= sign;
-  }
+//     if (s21_fabs(x) > 1) arctn = sign *(S21_PI / 2 - arctn);
+//   }
 
-  return arctn;
-}
+//   // if (s21_fabs(x) != 1) {
+//   //   arctn *= sign;
+//   // }
+
+//   return arctn;
+// }
 
 long double s21_asin(double x) {
   return (x > 1 || x < -1)  ? S21_NAN
@@ -314,7 +365,9 @@ long double s21_ceil(double x) {  // if exp > 52 ? result = x
   // printf("", );
   // d_bits d = {x};
   // ((d.bits << 1) >> 53) - 1023 > 51
-  if (x == S21_INF || x == -S21_INF || s21_isnan(x) || s21_isnan(-x) || !s21_fmod(x, 1)) result = x;
+  if (x == S21_INF || x == -S21_INF || s21_isnan(x) || s21_isnan(-x) ||
+      !s21_fmod(x, 1))
+    result = x;
   else {
     result = s21_floor(x) + 1;
     result *= result == 0 && x < 0 ? -1 : 1;
