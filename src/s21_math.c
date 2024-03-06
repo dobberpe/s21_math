@@ -18,15 +18,17 @@ bool precision_check(long double value, long double check, bool extended_prec) {
   char buf1[512] = {0};
   char buf2[512] = {0};
   if (value >= 10000000000) {
-    sprintf(buf1, "%.*Le", extended_prec ? 16 : 15, value);
-    sprintf(buf2, "%.*Le", extended_prec ? 16 : 15, check);
+    sprintf(buf1, "%.*Le", extended_prec ? 18 : 16, value);
+    sprintf(buf2, "%.*Le", extended_prec ? 18 : 16, check);
   } else {
-    sprintf(buf1, "%.*Lf", extended_prec ? 7 : 6, value);
-    sprintf(buf2, "%.*Lf", extended_prec ? 7 : 6, check);
+    sprintf(buf1, "%.*Lf", extended_prec ? 9 : 7, value);
+    sprintf(buf2, "%.*Lf", extended_prec ? 9 : 7, check);
   }
   // printf("\n%s\n%s\n", buf1, buf2);
   return strcmp(buf1, buf2);
 }
+
+// #include <math.h>
 
 long double s21_pow(double base, double exp) {
   long double result = 1;
@@ -94,7 +96,11 @@ long double s21_fmod(double x, double y) {
       : s21_isnan(-y) || x == S21_INF || -x == S21_INF || y == 0 ? -S21_NANL
       : s21_isinf(y) || s21_isinf(-y) || s21_fabs(x) < s21_fabs(y)
           ? x
-          : x - s21_floor(x / y) * y;
+          : (x) - s21_floor(s21_fabs(x / y)) * (x / y < 0 ? -1 : 1) * y;
+  // printf("%f - s21_floor(%f / %f) * %f\n", x, x, y, y);
+  // printf("%f - s21_floor(%f) * %f\n", x, x / y, y);
+  // printf("%f - %Lf * %f\n", x, s21_floor(x / y), y);
+  // printf("%f - %Lf\n", x, s21_floor(x / y) * y);
   result = !result && x < 0 ? -0.0 : result;
   return result;
 }
@@ -281,14 +287,15 @@ long double s21_exp(double x) {
   long double term = 1;
   int sign = 1;
   int i = 1;
-  long double prev_result = 0;
+  // long double prev_result = 0;
   if (x < 0) {
     x = -x;
     sign = -1;
   }
   // while (s21_fabs(result - prev_result) > S21_EPS) {
-  while (precision_check(result, prev_result, true)) {
-    prev_result = result;
+  while (s21_fabs(term) > 1e-200 && !s21_isinf(result)) {
+  // while (precision_check(result, prev_result, true)) {
+    // prev_result = result;
     term *= x / i;
     i++;
     result += term;
@@ -345,15 +352,15 @@ long double s21_log(double x) {
   } else if (x < 0.) {
     result = -S21_NANL;
   } else {
-    do {
-      term = result;
-      result = term + 2 * ((x - s21_exp(term)) / (x + s21_exp(term)));
-    } while (precision_check(result, term, true));
-    // for (; x >= S21_EXP; x /= S21_EXP, power++) continue;
-    // for (int i = 0; i < 500; i++) {
+    // do {
     //   term = result;
-    //   result = term + 2 * (x - s21_exp(term)) / (x + s21_exp(term));
-    // }
+    //   result = term + 2 * ((x - s21_exp(term)) / (x + s21_exp(term)));
+    // } while (precision_check(result, term, true));
+    // for (; x >= S21_EXP; x /= S21_EXP, power++) continue;
+    for (int i = 0; i < 500; ++i) {
+      term = result;
+      result = term + 2 * (x - s21_exp(term)) / (x + s21_exp(term));
+    }
   }
   return (result + power);
 }
