@@ -5,39 +5,21 @@
 #include <stdio.h>
 #include <string.h>
 
-// #include <math.h>   // УДАЛИТЬ ПЕРЕД СДАЧЕЙ
-
 #define S21_PI 3.1415926535897932384626433832795L
 #define S21_EXP 2.718281828459045235360287471352662
 #define S21_double_MAX 1.7976931348623158e308
-// #define S21_double_MIN 2.22507385850720138309023271733240406e-308L
 #define S21_double_MIN 2.22507385850720138309023271733240406e-308
 #define S21_EPS 1E-7
-// #define NAN_BITS_NEG 18444492273895866368
-// #define S21_NANL -(0.0l/0.0l)
-// #define S21_INFL 1.0l/0.0l
-// #define S21_NAN -(0.0/0.0)
-// #define S21_INF 1.0/0.0
 #define NAN_BITS 9221120237041090560
 #define INF_BITS 9218868437227405312
-#define S21_NANL __builtin_nanl ("")
-#define S21_INFL __builtin_infl ()
-#define S21_NAN __builtin_nan ("")
-#define S21_INF __builtin_inf ()
-
-typedef struct {
-    double first;
-    double second;
-} pair;
+#define S21_NANL __builtin_nanl("")
+#define S21_INFL __builtin_infl()
+#define S21_NAN __builtin_nan("")
+#define S21_INF __builtin_inf()
 
 typedef union {
-    long double full;
-    unsigned short bits[5];
-} ld_bits;
-
-typedef union {
-    double full;
-    unsigned long long bits;
+  double full;
+  unsigned long long bits;
 } d_bits;
 
 bool precision_check(long double value, long double check, bool extended_prec);

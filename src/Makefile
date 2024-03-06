@@ -3,7 +3,7 @@ CFLAGS = -Wall -Wextra -Werror
 TFLAGS = -lcheck -lsubunit -lm
 GFLAGS = -fprofile-arcs -ftest-coverage
 LIB_NAME = s21_math.a
-LIB_SRC = s21_math.c
+LIB_SRC = $(wildcard *.c)
 LIB_OBJ = $(LIB_SRC:.c=.o)
 TEST_SRC = $(wildcard ./tests/*.c)
 TEST_GCDA = $(LIB_SRC:.c=.gcda)
@@ -17,8 +17,7 @@ test: $(TEST_OBJ) $(LIB_NAME)
 	@./test
 	@cat pics/keyboard_cat.txt
 
-gcov_report: clean
-	@gcc -o s21_math.o -c $(GFLAGS) s21_math.c
+gcov_report: clean $(LIB_OBJ)
 	@ar rcs $(LIB_NAME) $(LIB_OBJ)
 	@ranlib $(LIB_NAME)
 	@rm -f $(LIB_OBJ)
@@ -36,6 +35,13 @@ $(LIB_NAME): $(LIB_OBJ)
 	@ranlib $(LIB_NAME)
 	@rm -f $(LIB_OBJ)
 	@cat pics/pika.txt
+
+style_check:
+	@clang-format -n *.c *.h tests/*
+	@#cppcheck --enable=all --suppress=missingIncludeSystem *.c *.h tests/*
+
+leak_check: test
+	@valgrind --tool=memcheck --leak-check=yes ./test
 
 clean:
 	@rm -f $(LIB_OBJ) $(LIB_NAME) $(TEST_OBJ) test gcov* coverage.info *.gcda *.gcno tests/*.gcno
