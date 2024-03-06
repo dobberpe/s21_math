@@ -23,6 +23,8 @@ typedef union {
 } d_bits;
 
 bool precision_check(long double value, long double check, bool extended_prec);
+bool s21_isnan(double n);
+bool s21_isinf(double n);
 
 int s21_abs(int x);
 long double s21_ceil(double x);
@@ -33,11 +35,6 @@ long double s21_pow(double base, double exp);
 long double s21_exp(double x);
 long double s21_log(double x);
 long double s21_fmod(double x, double y);
-
-bool s21_isnan(double n);
-bool s21_isinf(double n);
-bool s21_isnormal(double n);
-
 long double s21_sin(double x);
 long double s21_cos(double x);
 long double s21_tan(double x);

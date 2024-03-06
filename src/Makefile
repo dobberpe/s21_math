@@ -37,6 +37,7 @@ $(LIB_NAME): $(LIB_OBJ)
 	@cat pics/pika.txt
 
 style_check:
+	@cp ../materials/linters/.clang-format .
 	@clang-format -n *.c *.h tests/*
 	@#cppcheck --enable=all --suppress=missingIncludeSystem *.c *.h tests/*
 
