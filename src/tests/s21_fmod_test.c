@@ -186,7 +186,6 @@ END_TEST
 
 START_TEST(s21_fmod_zero_neg_one) {
   // -NAN
-  // printf("\n%f\n\n", fmod(-0.0, 1));
   ck_assert(!precision_check(s21_fmod(-0.0, 1), fmod(-0.0, 1), false));
 }
 END_TEST

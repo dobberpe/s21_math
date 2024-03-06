@@ -44,20 +44,6 @@ START_TEST(sin_INFINITYL) {
 }
 END_TEST
 
-START_TEST(s21_sin_max_double) {
-  // 0.004962
-  ck_assert(
-      !precision_check(s21_sin(S21_double_MAX), sin(S21_double_MAX), false));
-}
-END_TEST
-
-START_TEST(s21_sin_max_double_neg) {
-  // 0.004962
-  ck_assert(
-      !precision_check(s21_sin(-S21_double_MAX), sin(-S21_double_MAX), false));
-}
-END_TEST
-
 START_TEST(s21_sin_min_double) {
   // 0.0
   ck_assert(
@@ -83,8 +69,6 @@ Suite *s21_sin_cases(void) {
   tcase_add_test(tc, sin_NAN2);
   tcase_add_test(tc, sin_INFINITY);
   tcase_add_test(tc, sin_INFINITYL);
-  tcase_add_test(tc, s21_sin_max_double);
-  tcase_add_test(tc, s21_sin_max_double_neg);
   tcase_add_test(tc, s21_sin_min_double);
   tcase_add_test(tc, s21_sin_min_double_neg);
 

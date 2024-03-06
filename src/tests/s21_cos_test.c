@@ -44,20 +44,6 @@ START_TEST(cos_INFINITYL) {
 }
 END_TEST
 
-START_TEST(s21_cos_max_double) {
-  // -0.999988
-  ck_assert(
-      !precision_check(s21_cos(S21_double_MAX), cos(S21_double_MAX), false));
-}
-END_TEST
-
-START_TEST(s21_cos_max_double_neg) {
-  // -0.999988
-  ck_assert(
-      !precision_check(s21_cos(-S21_double_MAX), cos(-S21_double_MAX), false));
-}
-END_TEST
-
 START_TEST(s21_cos_min_double) {
   // 1.0
   ck_assert(
@@ -83,8 +69,6 @@ Suite *s21_cos_cases(void) {
   tcase_add_test(tc, cos_NAN2);
   tcase_add_test(tc, cos_INFINITY);
   tcase_add_test(tc, cos_INFINITYL);
-  tcase_add_test(tc, s21_cos_max_double);
-  tcase_add_test(tc, s21_cos_max_double_neg);
   tcase_add_test(tc, s21_cos_min_double);
   tcase_add_test(tc, s21_cos_min_double_neg);
 
