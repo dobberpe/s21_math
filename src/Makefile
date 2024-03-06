@@ -40,6 +40,7 @@ style_check:
 	@cp ../materials/linters/.clang-format .
 	@clang-format -n *.c *.h tests/*
 	@#cppcheck --enable=all --suppress=missingIncludeSystem *.c *.h tests/*
+	@rm -rf .clang-format
 
 leak_check: test
 	@valgrind --tool=memcheck --leak-check=yes ./test
