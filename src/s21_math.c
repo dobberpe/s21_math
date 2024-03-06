@@ -18,11 +18,11 @@ bool precision_check(long double value, long double check, bool extended_prec) {
   char buf1[512] = {0};
   char buf2[512] = {0};
   if (value >= 10000000000) {
-    sprintf(buf1, "%.*Le", extended_prec ? 18 : 16, value);
-    sprintf(buf2, "%.*Le", extended_prec ? 18 : 16, check);
+    sprintf(buf1, "%.*Le", extended_prec ? 18 : 15, value);
+    sprintf(buf2, "%.*Le", extended_prec ? 18 : 15, check);
   } else {
-    sprintf(buf1, "%.*Lf", extended_prec ? 9 : 7, value);
-    sprintf(buf2, "%.*Lf", extended_prec ? 9 : 7, check);
+    sprintf(buf1, "%.*Lf", extended_prec ? 9 : 6, value);
+    sprintf(buf2, "%.*Lf", extended_prec ? 9 : 6, check);
   }
   // printf("\n%s\n%s\n", buf1, buf2);
   return strcmp(buf1, buf2);
@@ -352,15 +352,19 @@ long double s21_log(double x) {
   } else if (x < 0.) {
     result = -S21_NANL;
   } else {
+    do {
+      term = result;
+      result = term + 2 * ((x - s21_exp(term)) / (x + s21_exp(term)));
+    } while (precision_check(result, term, true));
     // do {
     //   term = result;
     //   result = term + 2 * ((x - s21_exp(term)) / (x + s21_exp(term)));
     // } while (precision_check(result, term, true));
     // for (; x >= S21_EXP; x /= S21_EXP, power++) continue;
-    for (int i = 0; i < 500; ++i) {
-      term = result;
-      result = term + 2 * (x - s21_exp(term)) / (x + s21_exp(term));
-    }
+    // for (int i = 0; i < 500; ++i) {
+    //   term = result;
+    //   result = term + 2 * (x - s21_exp(term)) / (x + s21_exp(term));
+    // }
   }
   return (result + power);
 }
