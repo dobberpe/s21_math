@@ -42,7 +42,7 @@ style_check:
 	@#cppcheck --enable=all --suppress=missingIncludeSystem *.c *.h tests/*
 	@rm -rf .clang-format
 
-leak_check: test
+leak_check:
 	@valgrind --tool=memcheck --leak-check=yes ./test
 
 clean:
