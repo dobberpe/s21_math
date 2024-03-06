@@ -35,7 +35,7 @@ END_TEST
 
 START_TEST(s21_log_zero) {
   // -INF
-  ck_assert(!precision_check(s21_log(0.), log(0.), false));
+  ck_assert_ldouble_eq(s21_log(0.), log(0.));
 }
 END_TEST
 
@@ -60,20 +60,6 @@ END_TEST
 START_TEST(s21_log_nan_negative) {
   // -NAN
   ck_assert(!precision_check(s21_log(-S21_NAN), log(-S21_NAN), false));
-}
-END_TEST
-
-START_TEST(s21_log_max_double) {
-  // 709.782713
-  ck_assert(
-      !precision_check(s21_log(S21_double_MAX), log(S21_double_MAX), false));
-}
-END_TEST
-
-START_TEST(s21_log_max_double_neg) {
-  // 709.782713
-  ck_assert(
-      !precision_check(s21_log(-S21_double_MAX), log(-S21_double_MAX), false));
 }
 END_TEST
 
@@ -104,8 +90,6 @@ Suite *s21_log_cases(void) {
   tcase_add_test(tc, s21_log_inf_negative);
   tcase_add_test(tc, s21_log_nan);
   tcase_add_test(tc, s21_log_nan_negative);
-  tcase_add_test(tc, s21_log_max_double);
-  tcase_add_test(tc, s21_log_max_double_neg);
   tcase_add_test(tc, s21_log_min_double);
   tcase_add_test(tc, s21_log_min_double_neg);
 

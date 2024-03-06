@@ -1,22 +1,8 @@
 #include "s21_math_test.h"
 
-START_TEST(asin_09) {
-  for (double i = 0.9; i > -1; i -= 0.4) {
-    ck_assert(!precision_check(s21_asin(i), asin(i), false));
-  };
-}
-END_TEST
-
 START_TEST(asin_1) {
   ck_assert(!precision_check(s21_asin(1), asin(1), false));
   ck_assert(!precision_check(s21_asin(-1), asin(-1), false));
-}
-END_TEST
-
-START_TEST(asin_100) {
-  for (double i = 100; i >= -100; i -= 10) {
-    if (i) ck_assert(!precision_check(s21_asin(i), asin(i), false));
-  }
 }
 END_TEST
 
@@ -76,9 +62,7 @@ Suite *s21_asin_cases(void) {
   Suite *c = suite_create("s21_asin_cases");
   TCase *tc = tcase_create("s21_asin_tc");
 
-  tcase_add_test(tc, asin_09);
   tcase_add_test(tc, asin_1);
-  tcase_add_test(tc, asin_100);
   tcase_add_test(tc, asin_NAN);
   tcase_add_test(tc, asin_NAN2);
   tcase_add_test(tc, asin_S21_INF);

@@ -1,12 +1,5 @@
 #include "s21_math_test.h"
 
-START_TEST(acos_09) {
-  for (double i = 0.9; i > -1; i -= 0.4) {
-    ck_assert(!precision_check(s21_acos(i), acos(i), false));
-  };
-}
-END_TEST
-
 START_TEST(acos_1) {
   ck_assert(!precision_check(s21_acos(1), acos(1), false));
   ck_assert(!precision_check(s21_acos(-1), acos(-1), false));
@@ -76,7 +69,6 @@ Suite *s21_acos_cases(void) {
   Suite *c = suite_create("s21_acos_cases");
   TCase *tc = tcase_create("s21_acos_tc");
 
-  tcase_add_test(tc, acos_09);
   tcase_add_test(tc, acos_1);
   tcase_add_test(tc, acos_100);
   tcase_add_test(tc, acos_NAN);

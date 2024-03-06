@@ -40,7 +40,6 @@ style_check:
 	@cp ../materials/linters/.clang-format .
 	@clang-format -n *.c *.h tests/*
 	@#cppcheck --enable=all --suppress=missingIncludeSystem *.c *.h tests/*
-	@rm -rf .clang-format
 
 leak_check:
 	@valgrind --tool=memcheck --leak-check=yes ./test
@@ -48,5 +47,6 @@ leak_check:
 clean:
 	@rm -f $(LIB_OBJ) $(LIB_NAME) $(TEST_OBJ) test gcov* coverage.info *.gcda *.gcno tests/*.gcno
 	@rm -rf coverage_report
+	@rm -rf .clang-format
 
 re: clean all

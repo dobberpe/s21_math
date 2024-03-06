@@ -44,8 +44,7 @@ END_TEST
 
 START_TEST(s21_pow_inf_neg_nan) {
   // NAN
-  ck_assert(!precision_check(s21_pow(-S21_INF, S21_NAN), pow(-S21_INF, S21_NAN),
-                             false));
+  ck_assert(isnan(s21_pow(-S21_INF, S21_NAN)) && isnan(pow(-S21_INF, S21_NAN)));
 }
 END_TEST
 
@@ -180,8 +179,7 @@ END_TEST
 
 START_TEST(s21_pow_two_point_five_neg_nan) {
   // NAN
-  ck_assert(
-      !precision_check(s21_pow(-2.5, S21_NAN), pow(-2.5, S21_NAN), false));
+  ck_assert(isnan(s21_pow(-2.5, S21_NAN)) && isnan(pow(-2.5, S21_NAN)));
 }
 END_TEST
 
@@ -282,7 +280,7 @@ END_TEST
 
 START_TEST(s21_pow_two_neg_nan) {
   // NAN
-  ck_assert(!precision_check(s21_pow(-2, S21_NAN), pow(-2, S21_NAN), false));
+  ck_assert(isnan(s21_pow(-2, S21_NAN)) && isnan(pow(-2, S21_NAN)));
 }
 END_TEST
 
@@ -384,8 +382,7 @@ END_TEST
 
 START_TEST(s21_pow_one_point_five_neg_nan) {
   // NAN
-  ck_assert(
-      !precision_check(s21_pow(-1.5, S21_NAN), pow(-1.5, S21_NAN), false));
+  ck_assert(isnan(s21_pow(-1.5, S21_NAN)) && isnan(pow(-1.5, S21_NAN)));
 }
 END_TEST
 
@@ -456,7 +453,7 @@ END_TEST
 
 START_TEST(s21_pow_inf_neg_one) {
   // INF
-  ck_assert(!precision_check(s21_pow(-S21_INF, 1.), pow(-S21_INF, 1.), false));
+  ck_assert_ldouble_eq(s21_pow(-S21_INF, 1.), pow(-S21_INF, 1.));
 }
 END_TEST
 
@@ -487,7 +484,7 @@ END_TEST
 
 START_TEST(s21_pow_one_neg_nan) {
   // NAN
-  ck_assert(!precision_check(s21_pow(-1., S21_NAN), pow(-1., S21_NAN), false));
+  ck_assert(isnan(s21_pow(-1., S21_NAN)) && isnan(pow(-1., S21_NAN)));
 }
 END_TEST
 

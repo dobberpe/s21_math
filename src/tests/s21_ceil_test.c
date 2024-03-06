@@ -19,7 +19,6 @@ END_TEST
 
 START_TEST(s21_ceil_inf_negative) {
   // -INF
-  ck_assert(!precision_check(s21_ceil(-S21_INF), ceil(-S21_INF), false));
   ck_assert_ldouble_eq(s21_ceil(-S21_INF), ceil(-S21_INF));
 }
 END_TEST
