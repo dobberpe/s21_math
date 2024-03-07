@@ -733,6 +733,18 @@ START_TEST(s21_pow_inf_neg_value_neg) {
 }
 END_TEST
 
+START_TEST(s21_pow_two_seven) {
+  // -NAN
+  ck_assert(!precision_check(s21_pow(2., 7.), pow(2., 7.), false));
+}
+END_TEST
+
+START_TEST(s21_pow_two_point_three_seven) {
+  // -NAN
+  ck_assert(!precision_check(s21_pow(2.3, 7.), pow(2.3, 7.), false));
+}
+END_TEST
+
 Suite *s21_pow_cases(void) {
   Suite *c = suite_create("s21_pow_cases");
   TCase *tc = tcase_create("s21_pow_tc");
@@ -848,6 +860,8 @@ Suite *s21_pow_cases(void) {
   tcase_add_test(tc, s21_pow_inf_value_neg);
   tcase_add_test(tc, s21_pow_inf_neg_value);
   tcase_add_test(tc, s21_pow_inf_neg_value_neg);
+  tcase_add_test(tc, s21_pow_two_seven);
+  tcase_add_test(tc, s21_pow_two_point_three_seven);
   suite_add_tcase(c, tc);
   return c;
 }

@@ -1,13 +1,26 @@
 #include "s21_math_test.h"
 
+START_TEST(atan_1) {
+  ck_assert(!precision_check(s21_atan(1), atan(1), false));
+  ck_assert(!precision_check(s21_atan(-1), atan(-1), false));
+}
+END_TEST
+
 START_TEST(atan_2) {
   ck_assert(!precision_check(s21_atan(0.99999999), atan(0.99999999), false));
   ck_assert(!precision_check(s21_atan(-0.99999999), atan(-0.99999999), false));
 }
+END_TEST
 
-START_TEST(atan_1) {
-  ck_assert(!precision_check(s21_atan(1), atan(1), false));
-  ck_assert(!precision_check(s21_atan(-1), atan(-1), false));
+START_TEST(atan_3) {
+  ck_assert(!precision_check(s21_atan(0.5), atan(0.5), false));
+  ck_assert(!precision_check(s21_atan(-0.5), atan(-0.5), false));
+}
+END_TEST
+
+START_TEST(atan_4) {
+  ck_assert(!precision_check(s21_atan(1.5), atan(1.5), false));
+  ck_assert(!precision_check(s21_atan(-1.5), atan(-1.5), false));
 }
 END_TEST
 
@@ -68,11 +81,13 @@ Suite *s21_atan_cases(void) {
   TCase *tc = tcase_create("s21_atan_tc");
 
   tcase_add_test(tc, atan_1);
+  tcase_add_test(tc, atan_2);
+  tcase_add_test(tc, atan_3);
+  tcase_add_test(tc, atan_4);
   tcase_add_test(tc, atan_NAN);
   tcase_add_test(tc, atan_NAN2);
   tcase_add_test(tc, atan_S21_INF);
   tcase_add_test(tc, atan_S21_INF2);
-  tcase_add_test(tc, atan_2);
   tcase_add_test(tc, s21_atan_max_double);
   tcase_add_test(tc, s21_atan_max_double_neg);
   tcase_add_test(tc, s21_atan_min_double);

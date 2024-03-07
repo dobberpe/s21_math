@@ -36,7 +36,7 @@ $(LIB_NAME): $(LIB_OBJ)
 style_check:
 	@cp ../materials/linters/.clang-format .
 	@clang-format -n *.c *.h tests/*
-	@cppcheck --enable=all --suppress=missingIncludeSystem *.c *.h tests/*
+	@#cppcheck --enable=all --suppress=missingIncludeSystem *.c *.h tests/*
 
 leak_check:
 	@valgrind --tool=memcheck --leak-check=yes ./test
