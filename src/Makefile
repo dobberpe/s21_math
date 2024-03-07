@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -std=c11
 TFLAGS = -lcheck -lsubunit -lm
 GFLAGS = -fprofile-arcs -ftest-coverage
 LIB_NAME = s21_math.a
@@ -17,11 +17,8 @@ test: $(TEST_OBJ) $(LIB_NAME)
 	@./test
 	@cat pics/keyboard_cat.txt
 
-gcov_report: clean $(LIB_OBJ)
-	@ar rcs $(LIB_NAME) $(LIB_OBJ)
-	@ranlib $(LIB_NAME)
-	@rm -f $(LIB_OBJ)
-	@$(CC) $(CFLAGS) -o gcov_r $(GFLAGS) $(TEST_SRC) -L. -l:$(LIB_NAME) $(TFLAGS)
+gcov_report: clean add_coverage $(LIB_OBJ) $(LIB_NAME) 
+	@$(CC) $(CFLAGS) -o gcov_r $(TEST_SRC) -L. -l:$(LIB_NAME) $(TFLAGS)
 	@mkdir coverage_report
 	@./gcov_r
 	@python3 -m gcovr -r . --html --html-details -o coverage_report/index.html --exclude test
@@ -39,7 +36,7 @@ $(LIB_NAME): $(LIB_OBJ)
 style_check:
 	@cp ../materials/linters/.clang-format .
 	@clang-format -n *.c *.h tests/*
-	@#cppcheck --enable=all --suppress=missingIncludeSystem *.c *.h tests/*
+	@cppcheck --enable=all --suppress=missingIncludeSystem *.c *.h tests/*
 
 leak_check:
 	@valgrind --tool=memcheck --leak-check=yes ./test
@@ -48,5 +45,8 @@ clean:
 	@rm -f $(LIB_OBJ) $(LIB_NAME) $(TEST_OBJ) test gcov* coverage.info *.gcda *.gcno tests/*.gcno
 	@rm -rf coverage_report
 	@rm -rf .clang-format
+
+add_coverage:
+	$(eval CFLAGS:=$(CFLAGS) $(GFLAGS))
 
 re: clean all
